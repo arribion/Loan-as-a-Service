@@ -6,17 +6,20 @@ LAAS BACKEND
 ## project structure
 
 ```bash
-HOST-PRO-LAAS/
+LAAS/
+  |-backend/
+  | |
+  | |-src/
+  | |  |-routes/
+  | |  |-controllers/
+  | |  |-services/
+  | |  |-lib/
+  | |  |-middlewares/
+  | |
+  | |-app.js
+  | |-index.js
   |
-  |-src/
-  |  |-routes/
-  |  |-controllers/
-  |  |-services/
-  |  |-lib/
-  |  |-middlewares/
-  |
-  |-app.js
-  |-index.js
+  |-frontend
 ```
 
 script type ES7 modules
