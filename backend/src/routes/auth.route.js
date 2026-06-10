@@ -1,6 +1,6 @@
 import express from "express";
 
-const authRouter = express.Router();
+const auth_Router = express.Router();
 
 // controllers
 import {
@@ -14,4 +14,4 @@ authRouter
     .post("/login", login_tenant)
     .post("/logout", logout_tenant);
 
-export default authRouter;
+export default auth_Router;

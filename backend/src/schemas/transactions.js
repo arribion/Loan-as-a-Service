@@ -1,0 +1,53 @@
+import {
+  pgTable,
+  uuid,
+  numeric,
+  varchar,
+  pgEnum,
+  jsonb,
+  timestamp,
+  index,
+} from "drizzle-orm/pg-core";
+import { tenants } from "./tenants";
+import { loans } from "./loans";
+
+export const transactionTypeEnum = pgEnum("transaction_type", [
+  "disbursement",
+  "repayment",
+  "penalty_charge",
+  "interest_accrual",
+  "waiver",
+  "write_off",
+]);
+
+export const transactionStatusEnum = pgEnum("transaction_status", [
+  "pending",
+  "completed",
+  "failed",
+  "reversed",
+]);
+
+export const transactions = pgTable(
+  "transactions",
+  {
+    id: uuid("id").defaultRandom().primaryKey().notNull(),
+    tenant_id: uuid("tenant_id")
+      .notNull()
+      .references(() => tenants.id),
+    loan_id: uuid("loan_id")
+      .notNull()
+      .references(() => loans.id),
+    type: transactionTypeEnum("type").notNull(),
+    status: transactionStatusEnum("status").default("pending").notNull(),
+    amount: numeric("amount", { precision: 15, scale: 2 }).notNull(), // Absolute value, direction determined by type
+    metadata: jsonb("metadata").default({}).notNull(), // Stores internal ledger logs or gateway codes
+    created_at: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .defaultNow()
+      .notNull(),
+  },
+  (table) => [
+    index("idx_transactions_tenant").on(table.tenant_id),
+    index("idx_transactions_loan").on(table.loan_id),
+    index("idx_transactions_type_status").on(table.type, table.status),
+  ],
+);
