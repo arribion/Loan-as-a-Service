@@ -32,3 +32,5 @@ export const tenants = pgTable(
     index("idx_tenants_active").on(table.is_active),
   ],
 );
+
+export default tenants;

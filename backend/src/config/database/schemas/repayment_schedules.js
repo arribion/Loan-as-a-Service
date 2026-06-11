@@ -20,7 +20,7 @@ export const repaymentMethodEnum = pgEnum("repayment_method", [
   "internal_wallet",
 ]);
 
-export const repayments = pgTable(
+export const repayments_schedules = pgTable(
   "repayments",
   {
     id: uuid("id").defaultRandom().primaryKey().notNull(),
@@ -58,3 +58,5 @@ export const repayments = pgTable(
     check("amount_paid_check", sql`${table.amount_paid} > 0`),
   ],
 );
+
+export default repayments_schedules;

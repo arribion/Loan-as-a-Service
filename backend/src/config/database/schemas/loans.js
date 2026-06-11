@@ -1,7 +1,6 @@
 import {
   pgTable,
   uuid,
-  varchar,
   pgEnum,
   numeric,
   integer,
@@ -10,6 +9,7 @@ import {
   check,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
+// 1. Import the actual table definitions instead of using raw SQL
 import { tenants } from "./tenants";
 import { users } from "./users";
 import { loanProducts } from "./loan_products";
@@ -31,7 +31,7 @@ export const loans = pgTable(
       .references(() => tenants.id),
     borrower_id: uuid("borrower_id")
       .notNull()
-      .references(() => users.id), // References user (borrower seat)
+      .references(() => users.id),
     product_id: uuid("product_id")
       .notNull()
       .references(() => loanProducts.id),
@@ -61,3 +61,5 @@ export const loans = pgTable(
     check("balance_check", sql`${table.balance_outstanding} >= 0`),
   ],
 );
+
+export default loans;

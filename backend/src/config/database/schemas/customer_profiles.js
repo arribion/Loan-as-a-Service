@@ -1,23 +1,16 @@
 import {
   pgTable,
   uuid,
-  customType,
+  text,
   smallint,
   timestamp,
   index,
   check,
-} from "drizzle-orm/pg-core";
+} from "drizzle-orm/pg-core"; 
 import { sql } from "drizzle-orm";
 import { users } from "./users";
 
-const bytea =
-  customType <
-  { data: Buffer } >
-  {
-    dataType: () => "bytea",
-  };
-
-export const customerProfiles = pgTable(
+export const customer_profiles = pgTable(
   "customer_profiles",
   {
     id: uuid("id").defaultRandom().primaryKey().notNull(),
@@ -25,9 +18,10 @@ export const customerProfiles = pgTable(
       .notNull()
       .unique()
       .references(() => users.id, { onDelete: "cascade" }),
-    national_identity_number: bytea("national_identity_number").notNull(), // AES-256 encrypted string stored as binary
-    phone_number: bytea("phone_number").notNull(), // AES-256 encrypted string stored as binary
-    encryption_key_vector: bytea("encryption_key_vector").notNull(), // AES-256 encrypted string stored as binary
+    national_identity_number: text("national_identity_number").notNull(),
+    phone_number: text("phone_number").notNull(),
+    encryption_key_vector: text("encryption_key_vector").notNull(),
+
     credit_score: smallint("credit_score"),
     date_of_birth: timestamp("date_of_birth", { mode: "string" }),
     kyc_verified_at: timestamp("kyc_verified_at", {
@@ -40,3 +34,5 @@ export const customerProfiles = pgTable(
     check("credit_score_check", sql`${table.credit_score} BETWEEN 0 AND 1000`),
   ],
 );
+
+export default customer_profiles;

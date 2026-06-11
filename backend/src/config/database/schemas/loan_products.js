@@ -18,7 +18,7 @@ export const interestCalculationTypeEnum = pgEnum("interest_calculation_type", [
   "compound",
 ]);
 
-export const loanProducts = pgTable(
+export const loan_products = pgTable(
   "loan_products",
   {
     id: uuid("id").defaultRandom().primaryKey().notNull(),
@@ -49,3 +49,5 @@ export const loanProducts = pgTable(
     check("base_percentage_check", sql`${table.base_percentage} > 0`),
   ],
 );
+
+export default loan_products

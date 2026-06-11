@@ -41,3 +41,5 @@ export const users = pgTable(
     index("idx_users_email").on(table.email_address),
   ],
 );
+
+export default users;

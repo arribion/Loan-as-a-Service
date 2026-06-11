@@ -51,3 +51,5 @@ export const transactions = pgTable(
     index("idx_transactions_type_status").on(table.type, table.status),
   ],
 );
+
+export default transactions;
