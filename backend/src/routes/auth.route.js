@@ -7,10 +7,10 @@ import {
     register_tenant,
     login_tenant,
     logout_tenant
-} from "../controllers/auth.controller.js"
+} from "../controllers/auth.Tenant.Controller.js";
 
-authRouter
-    .post("register", register_tenant)
+auth_Router
+    .post("/register", register_tenant)
     .post("/login", login_tenant)
     .post("/logout", logout_tenant);
 

@@ -25,7 +25,7 @@ app.get("/", (req, res) => {
 // routes
 import authRouter from "./src/routes/auth.route.js";
 
-app.use("/api/auth", authRouter);
+app.use("/api/v1/auth", authRouter);
 
 
 app.listen(PORT, host, () => {

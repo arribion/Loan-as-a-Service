@@ -1,4 +1,4 @@
-import db from "../config/database/db.js"
+import { db } from "../config/database/db.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
@@ -13,7 +13,7 @@ if(!ACCESS_TOKEN_SECRET || !REFRESH_TOKEN_SECRET || !ACCESS_TOKEN_EXPIRES_IN || 
   throw new Error("Missing required environment variables for JWT configuration");
 }
 
-const register_tenant = async (req, res) => {
+export const register_tenant = async (req, res) => {
     const { email, password } = req.body;
     try {
         if (!email || !password) {
@@ -92,7 +92,7 @@ const register_tenant = async (req, res) => {
     }
 }
 
-const login_tenant = async (req, res) => {
+export const login_tenant = async (req, res) => {
     const { email, password } = req.body;
     try {
         if(!email || !password) {
@@ -169,11 +169,11 @@ const login_tenant = async (req, res) => {
     }
 }
 
-const refresh_token = async (req, res) => {
+export const refresh_token = async (req, res) => {
       
 }
 
-const logout_tenant = (req, res) => {
+export const logout_tenant = (req, res) => {
   try {
     
   } catch (error) {
