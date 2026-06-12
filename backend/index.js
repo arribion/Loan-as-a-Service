@@ -10,16 +10,25 @@ app.use(express.json());
 // allowed origins
 app.use(cors());
 
-const port = 3001;
+const PORT = process.env.PORT || 5000;
+if(!PORT) {
+  throw new Error("PORT environment variable is not defined");
+}
+
 const host = "localhost"; 
-const serverUrl = `http://${host}:${port}`;
+const serverUrl = `http://${host}:${PORT}`;
 
 app.get("/", (req, res) => {
   res.send("<h1>backend running successfully...</h1>");
 });
 
+// routes
+import authRouter from "./src/routes/auth.route.js";
 
-app.listen(port, host, () => {
+app.use("/api/auth", authRouter);
+
+
+app.listen(PORT, host, () => {
   console.log("app running successfully...");
   console.log(`Server available at: ${serverUrl}`);
 });

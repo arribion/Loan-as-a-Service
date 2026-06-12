@@ -6,7 +6,7 @@ if (!REDIS_PASSWORD) {
     process.exit(1);
 } 
 
-const client = createClient({
+const redis_client = createClient({
   username: "default",
   password: `${REDIS_PASSWORD}`,
   socket: {
@@ -16,9 +16,16 @@ const client = createClient({
 });
 
 client.on("error", (err) => console.log("Redis Client Error", err));
+const init_redis = async () => {
+  try {
+    await redis_client.connect().then(() => {
+      console.log("redis connected successfully...")
+    });
+    await redis_client.set("foo", "bar");
+    const result = await redis_client.get("foo");
+  } catch (error) {
+    console.log("Redis: ", error);
+  }
+}
 
-await client.connect();
-
-await client.set("foo", "bar");
-const result = await client.get("foo");
-console.log(result); // >>> bar
+console.log(result)
