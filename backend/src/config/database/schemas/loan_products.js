@@ -10,8 +10,7 @@ import {
   check,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-import { tenants } from "./tenants";
-
+import tenants from "./tenants.js";
 export const interestCalculationTypeEnum = pgEnum("interest_calculation_type", [
   "flat",
   "reducing_balance",

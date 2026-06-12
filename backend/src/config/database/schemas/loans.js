@@ -9,10 +9,10 @@ import {
   check,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-// 1. Import the actual table definitions instead of using raw SQL
-import { tenants } from "./tenants";
-import { users } from "./users";
-import { loanProducts } from "./loan_products";
+
+import tenants from "./tenants.js";
+import users from "./users.js";
+import loanProducts from "./loan_products.js"; 
 
 export const loanStatusEnum = pgEnum("loan_status", [
   "pending_approval",
@@ -26,6 +26,9 @@ export const loans = pgTable(
   "loans",
   {
     id: uuid("id").defaultRandom().primaryKey().notNull(),
+
+    // 💡 KEEP THESE AS-IS! Drizzle handles the string execution
+    // at runtime when running the migration tool, avoiding file import conflicts.
     tenant_id: uuid("tenant_id")
       .notNull()
       .references(() => tenants.id),
@@ -35,6 +38,7 @@ export const loans = pgTable(
     product_id: uuid("product_id")
       .notNull()
       .references(() => loanProducts.id),
+
     principal_amount: numeric("principal_amount", {
       precision: 15,
       scale: 2,

@@ -9,8 +9,9 @@ import {
   check,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-import { tenants } from "./tenants";
-import { loans } from "./loans";
+// referencies
+import tenants from "./tenants.js";
+import loans from "./loans.js";
 
 export const repaymentMethodEnum = pgEnum("repayment_method", [
   "m_pesa",

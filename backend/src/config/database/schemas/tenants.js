@@ -1,4 +1,3 @@
-import { text } from "drizzle-orm/gel-core";
 import {
   pgTable,
   uuid,
@@ -8,6 +7,7 @@ import {
   boolean,
   timestamp,
   index,
+  text
 } from "drizzle-orm/pg-core";
 
 export const packageTierEnum = pgEnum("package_tier", [
@@ -21,7 +21,7 @@ export const tenants = pgTable(
   {
     id: uuid("id").defaultRandom().primaryKey().notNull(),
     password: text("password", { length: 50 }).notNull(),
-    email: Text("email").notNull(),
+    email: text("email").notNull(),
     business_name: varchar("business_name", { length: 200 }),
     package_tier: packageTierEnum("package_tier").notNull(),
     configuration_payload: jsonb("configuration_payload").default({}).notNull(),

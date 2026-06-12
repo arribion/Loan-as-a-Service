@@ -8,8 +8,9 @@ import {
   timestamp,
   index,
 } from "drizzle-orm/pg-core";
-import { tenants } from "./tenants";
-import { loans } from "./loans";
+// referencies
+import tenants from "./tenants.js";
+import loans from "./loans.js";
 
 export const transactionTypeEnum = pgEnum("transaction_type", [
   "disbursement",

@@ -17,7 +17,7 @@ export const register_tenant = async (req, res) => {
     const { email, password } = req.body;
     try {
         if (!email || !password) {
-            res.status(401).json({
+            return res.status(401).json({
                 success: false,
                 message: "all fields are required"
             });
@@ -25,13 +25,13 @@ export const register_tenant = async (req, res) => {
       // check if tenant exist
       await db.query("SELECT * FROM tenants WHERE email = ?", [email], async (err, result) => {
         if (err) {
-          res.status(500).json({
+          return res.status(500).json({
             success: false,
             message: "database error",
             error: err
           });
         } else if (result.length > 0) {
-          res.status(409).json({
+          return res.status(409).json({
             success: false,
             message: "tenant already exists"
           });
@@ -86,7 +86,7 @@ export const register_tenant = async (req, res) => {
     } catch (error) {
          res.status(500).json({
             success: false,
-            message: "all fields are required",
+            message: "server error",
             error: error
          });
     }
@@ -96,7 +96,7 @@ export const login_tenant = async (req, res) => {
     const { email, password } = req.body;
     try {
         if(!email || !password) {
-            res.status(401).json({
+            return res.status(401).json({
                 success: false,
                 message: "all fields are required"
             });
@@ -163,7 +163,7 @@ export const login_tenant = async (req, res) => {
     } catch (error) {
          res.status(500).json({
            success: false,
-           message: "all fields are required",
+           message: "server error",
            error: error
          });
     }
@@ -179,7 +179,7 @@ export const logout_tenant = (req, res) => {
   } catch (error) {
      res.status(500).json({
        success: false,
-       message: "all fields are required",
+       message: "server error",
        error,
      });
   }

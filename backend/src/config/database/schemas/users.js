@@ -6,7 +6,8 @@ import {
   timestamp,
   index,
 } from "drizzle-orm/pg-core";
-import { tenants } from "./tenants";
+// referencies
+import tenants from "./tenants.js";
 
 export const securityRoleEnum = pgEnum("security_role", [
   "admin",

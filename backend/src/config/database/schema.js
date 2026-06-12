@@ -1,7 +1,7 @@
-import  "./schemas/tenants.js";
-import  "./schemas/users.js";
-import  "./schemas/customer_profiles.js";
-import "./schemas/loan_products.js";
-import "./schemas/loans.js";
-import "./schemas/repayment_schedules.js";
-import "./schemas/transactions.js";
+export * from "./schemas/tenants.js";
+export * from "./schemas/users.js";
+export * from "./schemas/customer_profiles.js";
+export * from "./schemas/loan_products.js";
+export * from "./schemas/loans.js";
+export * from "./schemas/repayment_schedules.js";
+export * from "./schemas/transactions.js";
