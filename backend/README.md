@@ -10,6 +10,9 @@ LAAS/
   | |  |-routes/
   | |  |-controllers/
   | |  |-services/
+  | |  |  |-payments/
+  | |  |  |-report/
+  | |  |  |-communication/
   | |  |-lib/
   | |  |-middlewares/
   | |
@@ -24,7 +27,7 @@ script type ES7 modules
 ## getting started
 
 ```bash
-git clone <github_url>
+git clone https://github.com/Host-Devs/LAAS.git
 ```
 
 ```bash
@@ -35,37 +38,23 @@ pnpm i install
 pnpm run dev
 ```
 
-Super Admin Login
-https://credit-lite-saas.appbusket.com/admin/login
+### CREDIT LITE SaaS DEMO
 
-Email: admin@demo.com
+[Super Admin Login](https://credit-lite-saas.appbusket.com/admin/login)
 
-Password: 123456
+- Email: ```admin@demo.com```
+- Password: ```123456```
 
-Tenant Login
-https://credit-lite-saas.appbusket.com/demo-user/login
+[Tenant Login](https://credit-lite-saas.appbusket.com/demo-user/login)
 
-Email: user@demo.com
+- Email: ```user@demo.com```
+- Password: ```123456```
 
-Password: 123456
+[Tenant Member/Borrower Login](https://credit-lite-saas.appbusket.com/demo-user/login)
 
-Tenant Member/Borrower Login
-https://credit-lite-saas.appbusket.com/demo-user/login
+- Email: ```member@demo.com```
+- Password: ```123456```
 
-Email: member@demo.com
+### MIlestones
 
-Password: 123456
-
-eg Week 1: Project Setup & Foundations
-Backend:
-Initialize repo,
-CI/CD pipelines,
-environment configs.
-Define database schema (ERD: tenants, users, loans, transactions)
-Set up Redis for async queues.
-Frontend:
-Set up React.js (dashboard)
-Configure design system (Tailwind, Figma-to-code workflows).
-Deliverable: Stable dev environment + wireframe alignment.
-High conversion landing page
-Who will be in charge in terms of backend and frontend
+- Week 1: Project Setup & Foundations

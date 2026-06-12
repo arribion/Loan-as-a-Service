@@ -1,3 +1,4 @@
+// This file serves as a central export point for all database schema definitions. 
 export * from "./schemas/tenants.js";
 export * from "./schemas/users.js";
 export * from "./schemas/customer_profiles.js";
