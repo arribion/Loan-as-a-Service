@@ -20,8 +20,8 @@ export const tenants = pgTable(
   "tenants",
   {
     id: uuid("id").defaultRandom().primaryKey().notNull(),
-    password: text("password", { length: 50 }).notNull(),
-    email: text("email").notNull(),
+    email: text("email").notNull().unique(), 
+    password: text("password").notNull(),
     business_name: varchar("business_name", { length: 200 }),
     package_tier: packageTierEnum("package_tier").notNull(),
     configuration_payload: jsonb("configuration_payload").default({}).notNull(),

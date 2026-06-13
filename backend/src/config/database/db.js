@@ -10,3 +10,15 @@ if (!DATABASE_URL) {
 
 const sql = neon(DATABASE_URL);
 export const db = drizzle(sql);
+
+// Database Connection test function
+async function checkConnection() {
+  try {
+    await sql`SELECT 1`;
+    console.log('Neon DB connected successfully...');
+  } catch (error) {
+    console.error('Database connection failed:', error.message);
+    process.exit(1); 
+  }
+}
+checkConnection();
