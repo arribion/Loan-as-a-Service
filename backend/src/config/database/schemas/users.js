@@ -31,8 +31,8 @@ export const users = pgTable(
     full_name: varchar("full_name", { length: 150 }).notNull(),
     email_address: varchar("email_address", { length: 254 }).notNull().unique(),
     password_hash: varchar("password_hash", { length: 255 }).notNull(),
-    security_role: securityRoleEnum("security_role").notNull(),
-    tracking_status: trackingStatusEnum("tracking_status").notNull(),
+    security_role: securityRoleEnum("security_role").notNull().default("borrower"),
+    tracking_status: trackingStatusEnum("tracking_status").notNull().default("active"),
     created_at: timestamp("created_at", { withTimezone: true, mode: "string" })
       .defaultNow()
       .notNull(),

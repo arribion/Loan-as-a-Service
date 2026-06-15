@@ -27,16 +27,16 @@ export const loan_products = pgTable(
     reference_title: varchar("reference_title", { length: 120 }).notNull(),
     interest_calculation_type: interestCalculationTypeEnum(
       "interest_calculation_type",
-    ).notNull(),
+    ).notNull().default("flat"),
     base_percentage: numeric("base_percentage", {
       precision: 6,
       scale: 4,
-    }).notNull(),
-    fine_rules: jsonb("fine_rules").default({}).notNull(),
+    }).notNull().default("0.0000"),
+    fine_rules: jsonb("fine_rules").default(sql`"{}"::jsonb`).notNull(),
     min_loan_amount: numeric("min_loan_amount", {
       precision: 15,
       scale: 2,
-    }).notNull(),
+    }).notNull().default("0.00"),
     max_loan_amount: numeric("max_loan_amount", {
       precision: 15,
       scale: 2,

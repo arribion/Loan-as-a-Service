@@ -31,19 +31,19 @@ export const repayments_schedules = pgTable(
     loan_id: uuid("loan_id")
       .notNull()
       .references(() => loans.id, { onDelete: "cascade" }),
-    amount_paid: numeric("amount_paid", { precision: 15, scale: 2 }).notNull(),
+    amount_paid: numeric("amount_paid", { precision: 15, scale: 2 }).notNull().default("0.00"),
     principal_component: numeric("principal_component", {
       precision: 15,
       scale: 2,
-    }).notNull(),
+    }).notNull().default("0.00"),
     interest_component: numeric("interest_component", {
       precision: 15,
       scale: 2,
-    }).notNull(),
+    }).notNull().default("0.00")  ,
     penalty_component: numeric("penalty_component", { precision: 15, scale: 2 })
       .default("0.00")
       .notNull(),
-    payment_method: repaymentMethodEnum("payment_method").notNull(),
+    payment_method: repaymentMethodEnum("payment_method").notNull().default("m_pesa"),
     external_reference: varchar("external_reference", { length: 100 }).unique(), //  M-Pesa/Bank Tx Reference ID
     received_at: timestamp("received_at", {
       withTimezone: true,

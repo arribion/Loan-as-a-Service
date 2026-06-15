@@ -8,6 +8,7 @@ import {
   timestamp,
   index,
 } from "drizzle-orm/pg-core";
+import { sql } from "drizzle-orm";
 // referencies
 import tenants from "./tenants.js";
 import loans from "./loans.js";
@@ -38,10 +39,10 @@ export const transactions = pgTable(
     loan_id: uuid("loan_id")
       .notNull()
       .references(() => loans.id),
-    type: transactionTypeEnum("type").notNull(),
+    type: transactionTypeEnum("type").notNull().default("repayment"),
     status: transactionStatusEnum("status").default("pending").notNull(),
-    amount: numeric("amount", { precision: 15, scale: 2 }).notNull(), // Absolute value, direction determined by type
-    metadata: jsonb("metadata").default({}).notNull(), // Stores internal ledger logs or gateway codes
+    amount: numeric("amount", { precision: 15, scale: 2 }).notNull().default("0.00"), // Absolute value, direction determined by type
+    metadata: jsonb("metadata").default(sql`"{}"::jsonb`).notNull(), // Store internal ledger logs or gateway codes
     created_at: timestamp("created_at", { withTimezone: true, mode: "string" })
       .defaultNow()
       .notNull(),

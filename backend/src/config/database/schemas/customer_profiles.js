@@ -17,11 +17,10 @@ export const customer_profiles = pgTable(
       .notNull()
       .unique()
       .references(() => users.id, { onDelete: "cascade" }),
-    national_identity_number: text("national_identity_number").notNull(),
+    national_identity_number: text("national_identity_number").notNull().unique().default(""),
     phone_number: text("phone_number").notNull(),
     encryption_key_vector: text("encryption_key_vector").notNull(),
-
-    credit_score: smallint("credit_score"),
+    credit_score: smallint("credit_score").default(0),
     date_of_birth: timestamp("date_of_birth", { mode: "string" }),
     kyc_verified_at: timestamp("kyc_verified_at", {
       withTimezone: true,

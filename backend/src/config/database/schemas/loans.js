@@ -26,9 +26,6 @@ export const loans = pgTable(
   "loans",
   {
     id: uuid("id").defaultRandom().primaryKey().notNull(),
-
-    // 💡 KEEP THESE AS-IS! Drizzle handles the string execution
-    // at runtime when running the migration tool, avoiding file import conflicts.
     tenant_id: uuid("tenant_id")
       .notNull()
       .references(() => tenants.id),
@@ -38,21 +35,20 @@ export const loans = pgTable(
     product_id: uuid("product_id")
       .notNull()
       .references(() => loanProducts.id),
-
     principal_amount: numeric("principal_amount", {
       precision: 15,
       scale: 2,
-    }).notNull(),
+    }).notNull().default("0.00"),
     balance_outstanding: numeric("balance_outstanding", {
       precision: 15,
       scale: 2,
-    }).notNull(),
+    }).notNull().default("0.00"),
     status: loanStatusEnum("status").default("pending_approval").notNull(),
     term_days: integer("term_days").notNull(),
     disbursed_at: timestamp("disbursed_at", {
       withTimezone: true,
       mode: "string",
-    }),
+    }).defaultNow(),
     created_at: timestamp("created_at", { withTimezone: true, mode: "string" })
       .defaultNow()
       .notNull(),
