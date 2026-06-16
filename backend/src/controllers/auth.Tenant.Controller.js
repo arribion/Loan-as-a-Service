@@ -85,7 +85,7 @@ export const register_tenant = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ success: false, message: "server error", error: error.message });
+      .json({ success: false, message: "Internal server error", error: error.message });
   }
 };
 
@@ -144,7 +144,7 @@ export const login_tenant = async (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ success: false, message: "server error", error: error.message });
+      .json({ success: false, message: "Internal server error", error: error.message });
   }
 };
 
@@ -201,7 +201,7 @@ export const logout_tenant = (req, res) => {
   } catch (error) {
     return res
       .status(500)
-      .json({ success: false, message: "server error", error: error.message });
+      .json({ success: false, message: "Internal server error", error: error.message });
   }
 };
 

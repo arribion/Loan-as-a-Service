@@ -70,7 +70,7 @@ pnpm run dev
 
 ---
 
-###  Breakdown of Tenant Product
+### Breakdown of Tenant Product
 
 - **Entity:** `loan_products (id, tenant_id, reference_title, interest_calculation_type, base_percentage, fine_rules)`
 - **Key Attributes:**
@@ -82,7 +82,7 @@ pnpm run dev
 
 ---
 
-###  Role in the Platform
+### Role in the Platform
 
 - **Customization per Tenant:** Each tenant can configure their own loan products to match their business model.  
 
@@ -97,19 +97,19 @@ pnpm run dev
 ### Example
 
 **Tenant:** *Bright Future SACCO*  
-**Tenant Products:** 
+**Tenant Products:**
 
 1. *School Fees Loan* → Flat interest, 10% base, penalty after 30 days.  
 2. *Emergency Loan* → Reducing balance, 15% base, automated reminders.  
 
 ---
 
-# CORE CONTRAINS
+## CORE CONTRAINS
 
 | PACKAGE TIER |   ACTIVE CLIENT CAP         |  CONCURRENT ACTIVE LOANS  | PERMITTED INTERNAL STAFF SEATS | CORE INTEGRATION SCOPE |
 |--------------|-----------------------------|---------------------------|--------------------------------|------------------------|
-| Tier 1: Lite |  Package Up to 5,000 users  |  Max 2,500 open loans     |   1 Admin, 1 Loan Officer      |   
-| Tier 2: Growth |      
+| Tier 1: Lite |  Package Up to 5,000 users  |  Max 2,500 open loans     |   1 Admin, 1 Loan Officer
+| Tier 2: Growth |
   
 
  Flat interest, manual review,
@@ -141,4 +141,4 @@ corporate seats
 Full loan restructuring models,
 custom advanced credit matrices,
 automated multi-wallet float routing,
-cross-channel notification alerts.
+cross-channel notification alerts

@@ -23,9 +23,11 @@ app.get("/", (req, res) => {
 });
 
 // routes
-import authRouter from "./src/routes/auth.route.js";
-
-app.use("/api/v1/auth", authRouter);
+import authTenantRouter from "./src/routes/auth.Tenant.Route.js";
+import packageTier_Router from "./src/routes/package.Route.js";
+// route middlewares
+app.use("/api/v1/tenant/auth", authTenantRouter);
+app.use("/api/v1/package-tiers", packageTier_Router);
 
 
 app.listen(PORT, host, () => {
