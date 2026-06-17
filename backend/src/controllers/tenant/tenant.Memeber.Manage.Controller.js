@@ -165,3 +165,12 @@ const generate_member_credentials = async (req, res) => {
         });
     }
 }
+
+export {
+    add_member,
+    update_member,
+    delete_member,
+    get_member,
+    get_all_members,
+    generate_member_credentials
+}

@@ -1,12 +1,48 @@
 # LAAS BACKEND
 
-Local development endpoints
+## Local development endpoints
 
-[Tenant registration](http://localhost:5000/api/v1/tenant/auth/register)
+### **1. Tenant Endpoints**
 
-[Tenant login](http://localhost:5000/api/v1/tenant/auth/login)
+- [Tenant registration](http://localhost:5000/api/v1/tenant/auth/register)
 
-[Tenant logout](http://localhost:5000/api/v1/tenant/auth/register)
+- [Tenant login](http://localhost:5000/api/v1/tenant/auth/login)
+
+- [Tenant logout](http://localhost:5000/api/v1/tenant/auth/register)
+
+- [General profile update (null)]()
+
+Tenant member setting
+
+- [Tenant Add Member (null)]()
+
+- [Tenant Update Member (null)]()
+
+- [Tenant Get One Member (null)]()
+
+- [Tenant Get All Member (null)]()
+
+- [Tenant Delete Member (null)]()
+
+Package management endpoints;
+
+- [Update feature and price (null)]()
+
+- [Delete Package (null)]()
+
+Product management endpoints
+
+- [Add Product (null)]()
+
+- [Update Product (null)]()
+
+- [Get one Product (null)]()
+
+- [Get all Product (null)]()
+
+- [Delete Product (null)]()
+
+### **2. User Endpoints**
 
 ## project structure
 
