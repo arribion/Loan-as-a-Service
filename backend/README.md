@@ -1,5 +1,13 @@
 # LAAS BACKEND
 
+Local development endpoints
+
+[Tenant registration](http://localhost:5000/api/v1/tenant/auth/register)
+
+[Tenant login](http://localhost:5000/api/v1/tenant/auth/login)
+
+[Tenant logout](http://localhost:5000/api/v1/tenant/auth/register)
+
 ## project structure
 
 ```bash

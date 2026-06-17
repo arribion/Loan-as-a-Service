@@ -1,5 +1,5 @@
-import { db } from "../config/database/db.js";
-import { tenants } from "../config/database/schema.js"; // Ensure path to your schema is correct
+import { db } from "../../config/database/db.js";
+import { tenants } from "../../config/database/schema.js"; // Ensure path to your schema is correct
 import { eq } from "drizzle-orm";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";

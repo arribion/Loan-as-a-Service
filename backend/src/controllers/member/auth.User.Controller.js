@@ -1,4 +1,4 @@
-import db from "../config/database/db.js";
+import db from "../../config/database/db.js";
 import bcrypt from "bcrypt";
 
 
