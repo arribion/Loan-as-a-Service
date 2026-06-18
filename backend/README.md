@@ -152,37 +152,7 @@ pnpm run dev
 
 | PACKAGE TIER |   ACTIVE CLIENT CAP         |  CONCURRENT ACTIVE LOANS  | PERMITTED INTERNAL STAFF SEATS | CORE INTEGRATION SCOPE |
 |--------------|-----------------------------|---------------------------|--------------------------------|------------------------|
-| Tier 1: Lite |  Package Up to 5,000 users  |  Max 2,500 open loans     |   1 Admin, 1 Loan Officer
-| Tier 2: Growth |
-  
+| Tier 1: Lite |  Package Up to 5,000 users  |  Max 2,500 open loans     |   1 Admin, 1 Loan Officer      | Flat interest, manual review, standard HostPay STK push, transactional text alerts.|
+| Tier 2: Growth | Package Up to 50,000 users |  Max 30,000 open loans  |   Up to 20 concurrent seats  |  Reducing balance option, rulebased algorithmic limits, automated B2C & C2B HostPay webhooks, scheduled reminder queues.|
+| Tier 3: Enterprise  | Package Unlimited users | Unlimited open loans | Unlimited corporate seats | Full loan restructuring models,custom advanced credit matrices, automated multi-wallet float routing, cross-channel notification alerts |
 
- Flat interest, manual review,
-standard HostPay STK push,
-transactional text alerts.  
-
-
-Package
-Up to
-50,000
-users
-Max 30,000
-open loans
-Up to 20
-concurrent
-seats
-Reducing balance option, rulebased algorithmic limits, automated
-B2C & C2B HostPay webhooks,
-scheduled reminder queues.
-Tier 3:
-Enterprise
-Package
-Unlimited
-users
-Unlimited open
-loans
-Unlimited
-corporate seats
-Full loan restructuring models,
-custom advanced credit matrices,
-automated multi-wallet float routing,
-cross-channel notification alerts
