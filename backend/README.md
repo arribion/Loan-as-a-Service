@@ -14,15 +14,15 @@
 
 Tenant member setting
 
-- [Tenant Add Member (null)]()
+- [Tenant Add Member](http://localhost:5000/api/v1/users/add)
 
-- [Tenant Update Member (null)]()
+- [Tenant Get One Member](http://localhost:5000/api/v1/users/get)
 
-- [Tenant Get One Member (null)]()
+- [Tenant Update Member](http://localhost:5000/api/v1/users/update/:member_id)
 
-- [Tenant Get All Member (null)]()
+- [Tenant Get All Member](http://localhost:5000/api/v1/users/get/:member_id)
 
-- [Tenant Delete Member (null)]()
+- [Tenant Delete Member](http://localhost:5000/api/v1/users/delete/:member_id)
 
 Package management endpoints;
 

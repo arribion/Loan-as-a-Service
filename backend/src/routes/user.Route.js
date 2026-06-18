@@ -10,13 +10,14 @@ import {
     get_all_members,
     generate_member_credentials
 } from "../controllers/tenant/tenant.Memeber.Manage.Controller.js";
+
 // routes
+userRoute.route("/:tenant_id/members", generate_member_credentials);
+// /:member_id
 userRoute
-    // .route("/:member_id" )
-    .post(add_member)
-    .get(get_member)
-    .get(get_member)
-    .put(update_member)
-    .delete(delete_member);
+    .post("/add", add_member)
+    .put("/update", update_member)
+    .get("/get", get_member)
+    .delete("/delete", delete_member);
 
 export default userRoute;

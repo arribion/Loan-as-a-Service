@@ -14,7 +14,7 @@ header{
     justify-content: space-between ;
     padding: 1em;
     color: white;
-    background-color: black;
+    background-color: rgb(23, 104, 4);
 }
 
 header h1{
@@ -32,7 +32,6 @@ form{
     background-color: white ;
     padding: 1em;
     border-radius: 10px;
-    box-shadow: 1px 1px 25em gray;
 }
 
 form h1{
