@@ -29,11 +29,18 @@ import authTenantRouter from "./src/routes/auth.Tenant.Route.js";
 import packageTier_Router from "./src/routes/package.Route.js";
 import userRoute from "./src/routes/user.Route.js";
 import productRouter from "./src/routes/product.Route.js";
+import packageTier_Router from "./src/routes/package.Route.js";
 // route middlewares
 app.use("/api/v1/tenant/auth", authTenantRouter);
 app.use("/api/v1/package-tiers", packageTier_Router);
 app.use("/api/v1/users", userRoute);
 app.use("/api/v1/products", productRouter);
+app.use("/api/v1/package", packageTier_Router);
+// error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: "Internal Server Error" });
+});
 // start the server
 app.listen(PORT, host, () => {
   console.log("app running successfully...");

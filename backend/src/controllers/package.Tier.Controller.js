@@ -16,14 +16,14 @@ export const getPackageTiers = (req, res) => {
     res.json(packageTiers);
 };
 
-export const editPackageTier = (req, res) => {
-    const { price, features } = req.body;
-    try {
+// export const editPackageTier = (req, res) => {
+//     const { price, features } = req.body;
+//     try {
         
-    } catch (error) {
+//     } catch (error) {
         
-    }
-}
+//     }
+// }
 
 export default {
     getPackageTiers,
