@@ -27,5 +27,5 @@ export const getPackageTiers = (req, res) => {
 
 export default {
     getPackageTiers,
-    editPackageTier
+    // editPackageTier
 };

@@ -29,6 +29,7 @@ section{
 }
 
 form{
+    width: 318px;
     background-color: white ;
     padding: 1em;
     border-radius: 10px;
@@ -38,4 +39,12 @@ form h1{
     font-size: medium;
     text-align: center ;
     margin-bottom: 20px;
+}
+
+form input{
+    width: 100%;
+    margin: 1em 0em;
+    padding: 5px;
+    border: solid green 1px;
+    border-radius: 5px;
 }

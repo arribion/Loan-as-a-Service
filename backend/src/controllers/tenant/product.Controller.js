@@ -1,6 +1,6 @@
-import db from "../../config/database/db.js";
+import { db } from "../../config/database/db.js";
 
-const create_product = async (req, res) => {
+export const create_product = async (req, res) => {
     const {
         reference_title,
         base_percentage,
@@ -43,7 +43,7 @@ const create_product = async (req, res) => {
     }
 }
 
-const get_product = async (req, res) => {
+export const get_product = async (req, res) => {
      try {
         const { id } = req.params;
         const product = await db("loan_products").where({ id }).first();
@@ -66,7 +66,7 @@ const get_product = async (req, res) => {
     }
 };
 
-const get_all_products = async (req, res) => {
+export const get_all_products = async (req, res) => {
     try {
         const products = await db("loan_products").select();
         return res.status(200).json({
@@ -82,7 +82,7 @@ const get_all_products = async (req, res) => {
     }
 };
 
-const update_product = async (req, res) => {
+export const update_product = async (req, res) => {
     const { id } = req.params;
     const {
         reference_title,
@@ -120,7 +120,7 @@ const update_product = async (req, res) => {
         });
     }
 }
-const delete_product = async (req, res) => {
+export const delete_product = async (req, res) => {
     const { id } = req.params;
     try {
         const deletedProduct = await db("loan_products").where({ id }).del();
@@ -140,4 +140,12 @@ const delete_product = async (req, res) => {
             message: "Internal server error"
         });
     }
+}
+
+export default {
+    create_product,
+    update_product,
+    delete_product,
+    get_all_products,
+    get_product
 }

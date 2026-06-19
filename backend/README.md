@@ -4,11 +4,11 @@
 
 ### **1. Tenant Endpoints**
 
-- [Tenant registration](http://localhost:5000/api/v1/tenant/auth/register)
+- [Tenant registration](http://localhost:5000/api/v1/tenant/auth/register) *
 
-- [Tenant login](http://localhost:5000/api/v1/tenant/auth/login)
+- [Tenant login](http://localhost:5000/api/v1/tenant/auth/login) *
 
-- [Tenant logout](http://localhost:5000/api/v1/tenant/auth/register)
+- [Tenant logout](http://localhost:5000/api/v1/tenant/auth/register) *
 
 - [General profile update (null)]()
 
@@ -25,6 +25,7 @@ Tenant member setting
 - [Tenant Delete Member](http://localhost:5000/api/v1/users/delete/:member_id)
 
 Package management endpoints;
+- [Get packages](http://localhost:5000/api/v1/package/tiers) *
 
 - [Update feature and price (null)]()
 
