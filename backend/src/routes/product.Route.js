@@ -12,9 +12,9 @@ import {
 
 // Define the routes
 productRouter
-    .get("/", get_all_products)
-    .get("/:id", get_product)
     .post("/", create_product)
+    .get("/:id", get_product)
+    .get("/", get_all_products)
     .put("/:id", update_product)
     .delete("/:id", delete_product);
 

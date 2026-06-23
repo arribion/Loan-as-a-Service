@@ -1,5 +1,6 @@
 const sampleProducts = [
   {
+    id: 1,
     reference_title: "School Fees Loan",
     interest_calculation_type: "flat",
     base_percentage: "10.0000",
@@ -9,6 +10,7 @@ const sampleProducts = [
     max_term_days: 120,
   },
   {
+    id: 2,
     reference_title: "Emergency Loan",
     interest_calculation_type: "reducing_balance",
     base_percentage: "15.0000",
@@ -18,6 +20,7 @@ const sampleProducts = [
     max_term_days: 30,
   },
   {
+    id: 3,
     reference_title: "Agri-Business Growth Loan",
     interest_calculation_type: "flat",
     base_percentage: "8.5000",
@@ -27,6 +30,7 @@ const sampleProducts = [
     max_term_days: 270,
   },
   {
+    id: 4,
     reference_title: "SME Asset Financing",
     interest_calculation_type: "reducing_balance",
     base_percentage: "12.0000",
@@ -36,6 +40,7 @@ const sampleProducts = [
     max_term_days: 365,
   },
   {
+    id: 5,
     reference_title: "Eco-Green Solar Loan",
     interest_calculation_type: "flat",
     base_percentage: "5.0000",
@@ -45,3 +50,4 @@ const sampleProducts = [
     max_term_days: 180,
   },
 ];
+export default sampleProducts

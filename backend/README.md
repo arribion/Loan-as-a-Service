@@ -33,6 +33,21 @@ Package management endpoints;
 
 Product management endpoints
 
+- add payload
+
+```bash
+{
+  "tenant_id": "6a6af487-eea6-478a-b6a3-616479578d87",
+  "reference_title": "Premium Growth Loan",
+  "interest_calculation_type": "flat",
+  "base_percentage": "12.5000",
+  "fine_rules": {},
+  "min_loan_amount": "500.00",
+  "max_loan_amount": "25000.00",
+  "max_term_days": 180
+}
+```
+
 - [Add Product (null)]()
 
 - [Update Product (null)]()
@@ -157,3 +172,25 @@ pnpm run dev
 | Tier 2: Growth | Package Up to 50,000 users |  Max 30,000 open loans  |   Up to 20 concurrent seats  |  Reducing balance option, rulebased algorithmic limits, automated B2C & C2B HostPay webhooks, scheduled reminder queues.|
 | Tier 3: Enterprise  | Package Unlimited users | Unlimited open loans | Unlimited corporate seats | Full loan restructuring models,custom advanced credit matrices, automated multi-wallet float routing, cross-channel notification alerts |
 
+
+## Rewritten Response
+
+The prompt does not specify the shape of the quadrilateral. We assume it is a square, as that is the most constrained (and common) interpretation; under any other assumption the area is not uniquely determined.
+
+We use the perimeter to find the side length, then compute the area of the square.
+
+**Step 1: Find the side length.**
+
+A square has four equal sides, so each side is:
+
+\[
+s = \frac{40}{4} = 10 \text{ cm}
+\]
+
+**Step 2: Compute the area.**
+
+\[
+A = s^2 = 10^2 = 100 \text{ cm}^2
+\]
+
+The area of the square is **100 cm²**.

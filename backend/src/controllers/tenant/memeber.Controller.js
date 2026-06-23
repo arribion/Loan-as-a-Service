@@ -1,3 +1,5 @@
+import { db } from "../../config/database/db.js";
+
 const add_member = async (req, res) => { 
     const { tenant_id } = req.params;
     const { full_name, email_address, security_role } = req.body;
@@ -10,8 +12,10 @@ const add_member = async (req, res) => {
             .select().from(users)
             .where(eq(users.email_address, email_address))
             .limit(1);
-        if(member_exists) {
-            return res.status(400).json({ message: "Member with this email already exists" });
+        if (member_exists && member_exists.length > 0) {
+          return res
+            .status(400)
+            .json({ message: "Member with this email already exists" });
         }
         // create new member
         const [new_member] = await db
@@ -30,7 +34,7 @@ const add_member = async (req, res) => {
         });
     } catch (error) {
         return res.status(500).json({
-            message: "Error adding member"
+            message: "Internal server error"
         });
     }
 }
@@ -141,6 +145,9 @@ const get_all_members = async (req, res) => {
 // generate member login credentials
 const generate_member_credentials = async (req, res) => {
     const { tenant_id, member_id } = req.params;
+    const {
+        name, email, password
+    } = req.body;
     try {
         // check if member exists
         const [member] = await db
@@ -150,11 +157,18 @@ const generate_member_credentials = async (req, res) => {
         if (!member) {
             return res.status(404).json({ message: "Member not found" });
         }
-        // generate login credentials (example implementation - replace with actual credential generation logic)
-        const credentials = {
+        // create hashed password
+        const hashed_password = await bcrypt.hash(password, 10);
+        if(!hashed_password)
+        {
+            
+        }
+        // generate login credentials
+        const new_credentials = {
             username: member.email_address,
-            password: "temporary_password" // Replace with actual password generation logic
+            password: hashed_password
         };
+        const newLogin = await db.select().insert('users').values(new_credentials)
         return res.status(200).json({
             message: "Member credentials generated successfully",
             credentials: credentials
