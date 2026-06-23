@@ -4,11 +4,11 @@
 
 ### **1. Tenant Endpoints**
 
-- [Tenant registration](http://localhost:5000/api/v1/tenant/auth/register) *
+- [Tenant registration](http://localhost:5000/api/v1/tenant/auth/register) * check
 
-- [Tenant login](http://localhost:5000/api/v1/tenant/auth/login) *
+- [Tenant login](http://localhost:5000/api/v1/tenant/auth/login) * check
 
-- [Tenant logout](http://localhost:5000/api/v1/tenant/auth/register) *
+- [Tenant logout](http://localhost:5000/api/v1/tenant/auth/register) * check
 
 - [General profile update (null)]()
 
@@ -35,7 +35,7 @@ Product management endpoints
 
 - add payload
 
-```bash
+```json
 {
   "tenant_id": "6a6af487-eea6-478a-b6a3-616479578d87",
   "reference_title": "Premium Growth Loan",
@@ -48,15 +48,15 @@ Product management endpoints
 }
 ```
 
-- [Add Product (null)]()
+- [Add Product](http://localhost:5000/api/v1/products/:tenant_id) * check
 
-- [Update Product (null)]()
+- [Update Product](http://localhost:5000/api/v1/products/:tenant_id/update/:id) * check
 
-- [Get one Product (null)]()
+- [Get one Product](http://localhost:5000/api/v1/products/:tenant_id/get/:id) * check
 
-- [Get all Product (null)]()
+- [Get all Product](http://localhost:5000/api/v1/products/:tenant_id) * check
 
-- [Delete Product (null)]()
+- [Delete Product](http://localhost:5000/api/v1/products/:tenant_id/delete/:id) * check
 
 ### **2. User Endpoints**
 

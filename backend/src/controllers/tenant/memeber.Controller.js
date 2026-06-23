@@ -1,4 +1,6 @@
 import { db } from "../../config/database/db.js";
+import { users } from "../../config/database/schemas/users.js";
+import { eq, and } from "drizzle-orm";
 
 const add_member = async (req, res) => { 
     const { tenant_id } = req.params;

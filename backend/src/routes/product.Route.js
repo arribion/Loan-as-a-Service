@@ -10,12 +10,18 @@ import {
   get_product,
 } from "../controllers/tenant/product.Controller.js";
 
+/**params
+ * 
+ * 
+ * 
+ */
+
 // Define the routes
 productRouter
-    .post("/", create_product)
-    .get("/:id", get_product)
-    .get("/", get_all_products)
-    .put("/:id", update_product)
-    .delete("/:id", delete_product);
+  .post("/:tenant_id/create", create_product)
+  .get("/:tenant_id/", get_all_products)
+  .get("/:tenant_id/get/:id", get_product)
+  .put("/:tenant_id/update/:id", update_product)
+  .delete("/:tenant_id/delete/:id", delete_product);
 
 export default productRouter;
