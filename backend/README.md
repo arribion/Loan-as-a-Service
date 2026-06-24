@@ -1,5 +1,13 @@
 # LAAS BACKEND
 
+- ## my todos
+
+```bash
+- check account status if active or inactive
+- user schema
+
+```
+
 ## Local development endpoints
 
 ### **1. Tenant Endpoints**

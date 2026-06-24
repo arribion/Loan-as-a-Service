@@ -28,7 +28,7 @@ export const users = pgTable(
     tenant_id: uuid("tenant_id")
       .notNull()
       .references(() => tenants.id, { onDelete: "cascade" }),
-    account_status: boolean(true).default(false),
+    // account_status: boolean("account_status").default(false),
     full_name: varchar("full_name", { length: 150 }).notNull(),
     email_address: varchar("email_address", { length: 254 }).notNull().unique(),
     password_hash: varchar("password_hash", { length: 255 }).notNull(),

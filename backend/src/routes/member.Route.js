@@ -8,7 +8,7 @@ import {
   get_member,
 } from "../controllers/tenant/memeber.Controller.js";
 
-// Validation Middleware: Rejects the request if member_id is missing or invalid
+// Rejects the request if member_id is missing or invalid
 const validateMemberId = (req, res, next) => {
   const { member_id } = req.params;
 

@@ -2,7 +2,7 @@ import express_validator from "express-validator";
 
 const { body, validationResult } = express_validator;
 
-const tenant_registration_validator = [
+const registration_validator = [
     body("email").isEmail().withMessage("invalid email format"),
     body("password").isLength({ min: 6 }).withMessage("password must be at least 6 characters long"),
     (req, res, next) => {
@@ -18,7 +18,7 @@ const tenant_registration_validator = [
     }
 ];
 
-const tenant_login_validator = [
+const login_validator = [
     body("email").isEmail().withMessage("invalid email format"),
     body("password").notEmpty().withMessage("password is required"),
     (req, res, next) => {
@@ -35,6 +35,6 @@ const tenant_login_validator = [
 ];
 
 export {
-    tenant_registration_validator,
-    tenant_login_validator
+    registration_validator,
+    login_validator
 };
