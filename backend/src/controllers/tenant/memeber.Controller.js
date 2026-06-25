@@ -72,7 +72,9 @@ const update_member = async (req, res) => {
     const [member] = await db
       .select()
       .from(users)
-      .where(and(eq(users.id, member_id), eq(users.tenant_id, tenant_id)))
+      .where(and(
+        eq(users.id, member_id),
+        eq(users.tenant_id, tenant_id)))
       .limit(1);
 
     if (!member) {
@@ -159,7 +161,7 @@ const get_all_members = async (req, res) => {
     const members = await db
       .select()
       .from(users)
-      .where(eq(users.users.tenant_id, tenant_id)); // Fixed typo here
+      .where(eq(users.tenant_id, tenant_id)); // Fixed typo here
 
     const members_list = members.map(
       ({ password_hash, ...member_details }) => member_details,

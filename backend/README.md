@@ -22,15 +22,15 @@
 
 Tenant member setting
 
-- [Tenant Add Member](http://localhost:5000/api/v1/users/add)
+- [Tenant Add Member](http://localhost:5000/api/v1/users/:tenant_id/add) * check
 
-- [Tenant Get One Member](http://localhost:5000/api/v1/users/get)
+- [Tenant Get One Member](http://localhost:5000/api/v1/users/:tenant_id/get/:member_id) * check
 
-- [Tenant Update Member](http://localhost:5000/api/v1/users/update/:member_id)
+- [Tenant Update Member](http://localhost:5000/api/v1/users/:tenant_id/update/:member_id)  * check
 
-- [Tenant Get All Member](http://localhost:5000/api/v1/users/get/:member_id)
+- [Tenant Get All Member](http://localhost:5000/api/v1/users/get/:member_id)  * check
 
-- [Tenant Delete Member](http://localhost:5000/api/v1/users/delete/:member_id)
+- [Tenant Delete Member](http://localhost:5000/api/v1/users:tenant_id/delete/:member_id) * check
 
 Package management endpoints;
 - [Get packages](http://localhost:5000/api/v1/package/tiers) *

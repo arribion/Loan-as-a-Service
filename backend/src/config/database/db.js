@@ -8,7 +8,12 @@ if (!DATABASE_URL) {
     process.exit(1);
 }
 
-const sql = neon(DATABASE_URL);
+const sql = neon(DATABASE_URL, {
+  fetchOptions: {
+    timeout: 30000, // 30 seconds
+  },
+});
+
 export const db = drizzle(sql);
 
 // Database Connection test function
