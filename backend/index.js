@@ -86,4 +86,5 @@ app.listen(PORT, host, () => {
   console.log("app running successfully...");
   console.log(`Server available at: ${serverUrl}`);
 });
+
 export default app;

@@ -8,4 +8,5 @@ import {
 } from "../controllers/package.Tier.Controller.js";
 
 packageTier_Router.get("/tiers", getPackageTiers);
+
 export default packageTier_Router;

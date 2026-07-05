@@ -40,6 +40,7 @@ const add_member = async (req, res) => {
         password_hash: temporary_password_hash,
       })
       .returning();
+    
     // Destructure safely to remove password_hash from the response object
     const { password_hash, ...member_details } = new_member;
 

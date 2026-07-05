@@ -202,3 +202,20 @@ A = s^2 = 10^2 = 100 \text{ cm}^2
 \]
 
 The area of the square is **100 cm²**.
+
+# Docker
+ 
+```bash
+use this as the db url:
+DATABASE_URL="postgresql://hostpro_user:hostpro_password@localhost:5432/hostpro_laas_db?schema=public"
+
+add this to the scripts on package json:
+{
+  "scripts": {
+    "db:up": "docker-compose up -d",
+    "db:down": "docker-compose down",
+  }
+}
+
+Then the docker compose file add it on the root folder of the application, then you will run the pnpm run db:up to start the docker instance.
+```

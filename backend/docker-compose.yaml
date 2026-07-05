@@ -1,0 +1,17 @@
+services:
+  postgres_db:
+    image: postgres:16-alpine
+    container_name: hostpro_laas
+    restart: always
+    environment:
+      POSTGRES_USER: hostpro_user
+      POSTGRES_PASSWORD: hostpro_password
+      POSTGRES_DB: hostpro_laas_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+    driver: local

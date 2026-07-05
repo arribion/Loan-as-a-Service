@@ -1,7 +1,6 @@
 import db from "../../config/database/db.js";
 import bcrypt from "bcrypt";
 
-
 const member_login = async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -39,6 +38,7 @@ const member_login = async (req, res) => {
             message: "Internal server error"
         });
     }
- }
+}
+ 
 const refresh_token = async (req, res) => { }
 const logout_member = async (req, res) => { }
