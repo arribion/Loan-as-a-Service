@@ -18,7 +18,7 @@
 
 - [Tenant logout](http://localhost:5000/api/v1/tenant/auth/register) * check
 
-- [General profile update (null)]()
+- [General profile update (null)](http://localhost:5000/)
 
 Tenant member setting
 
@@ -33,11 +33,12 @@ Tenant member setting
 - [Tenant Delete Member](http://localhost:5000/api/v1/users:tenant_id/delete/:member_id) * check
 
 Package management endpoints;
+
 - [Get packages](http://localhost:5000/api/v1/package/tiers) *
 
-- [Update feature and price (null)]()
+- [Update feature and price (null)](http://localhost:5000/)
 
-- [Delete Package (null)]()
+- [Delete Package (null)](http://localhost:5000/)
 
 Product management endpoints
 
@@ -174,12 +175,11 @@ pnpm run dev
 
 ## CORE CONTRAINS
 
-| PACKAGE TIER |   ACTIVE CLIENT CAP         |  CONCURRENT ACTIVE LOANS  | PERMITTED INTERNAL STAFF SEATS | CORE INTEGRATION SCOPE |
-|--------------|-----------------------------|---------------------------|--------------------------------|------------------------|
-| Tier 1: Lite |  Package Up to 5,000 users  |  Max 2,500 open loans     |   1 Admin, 1 Loan Officer      | Flat interest, manual review, standard HostPay STK push, transactional text alerts.|
-| Tier 2: Growth | Package Up to 50,000 users |  Max 30,000 open loans  |   Up to 20 concurrent seats  |  Reducing balance option, rulebased algorithmic limits, automated B2C & C2B HostPay webhooks, scheduled reminder queues.|
-| Tier 3: Enterprise  | Package Unlimited users | Unlimited open loans | Unlimited corporate seats | Full loan restructuring models,custom advanced credit matrices, automated multi-wallet float routing, cross-channel notification alerts |
-
+| PACKAGE TIER       | ACTIVE CLIENT CAP              | CONCURRENT ACTIVE LOANS       | PERMITTED INTERNAL STAFF SEATS | CORE INTEGRATION SCOPE                                                                 |
+|--------------------|-------------------------------|-------------------------------|-------------------------------|-----------------------------------------------------------------------------------------|
+| Tier 1: Lite       | Package Up to 5,000 users      | Max 2,500 open loans          | 1 Admin, 1 Loan Officer        | Flat interest, manual review, standard HostPay STK push, transactional text alerts.     |
+| Tier 2: Growth     | Package Up to 50,000 users     | Max 30,000 open loans         | Up to 20 concurrent seats      | Reducing balance option, rule-based algorithmic limits, automated B2C & C2B HostPay webhooks, scheduled reminder queues. |
+| Tier 3: Enterprise | Package Unlimited users        | Unlimited open loans          | Unlimited corporate seats      | Full loan restructuring models, custom advanced credit matrices, automated multi-wallet float routing, cross-channel notification alerts. |
 
 ## Rewritten Response
 
@@ -203,8 +203,8 @@ A = s^2 = 10^2 = 100 \text{ cm}^2
 
 The area of the square is **100 cm²**.
 
-# Docker
- 
+## Docker
+
 ```bash
 use this as the db url:
 DATABASE_URL="postgresql://hostpro_user:hostpro_password@localhost:5432/hostpro_laas_db?schema=public"

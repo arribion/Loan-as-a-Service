@@ -2,7 +2,7 @@
 
 Host Pro Limited is commissioning the design, architecture, and implementation of a highly scalable, multitenant Loan-as-a-Service (LaaS) platform
 
-Perfect — let’s break this down into a **comprehensive technical architecture** for the Host Pro Limited **Enterprise Loan‑as‑a‑Service (LaaS) Platform**. I’ll structure it like a professional specification document, but also highlight the reasoning behind each design choice so your attachés and interns can see the “why” as well as the “what.”
+**Comprehensive technical architecture** for the Host Pro Limited **Enterprise Loan‑as‑a‑Service (LaaS) Platform**.
 
 ---
 
@@ -20,7 +20,7 @@ Perfect — let’s break this down into a **comprehensive technical architectur
 
 ### 2. **Architecture Layers**
 
-| Layer | Components | Key Responsibilities |
+|Layer|Components|Key Responsibilities|
 |-------|------------|----------------------|
 | **Presentation Layer** | Web Dashboard (React), Mobile Client | User interfaces, role‑based access, responsive design |
 | **Application Layer** | API Gateway, Authentication Service, Loan Lifecycle Service | Business logic, tenant enforcement, loan origination, repayment scheduling |
