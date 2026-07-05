@@ -1,5 +1,14 @@
 # LAAS
 
+## Configured dual-push destinations
+
+```bash
+origin  https://github.com/arribion/Loan-as-a-Service.git (fetch)
+origin  https://github.com/arribion/Loan-as-a-Service.git (push)
+origin  https://github.com/Host-Devs/LAAS.git (push)
+```
+
+
 Host Pro Limited is commissioning the design, architecture, and implementation of a highly scalable, multitenant Loan-as-a-Service (LaaS) platform
 
 **Comprehensive technical architecture** for the Host Pro Limited **Enterprise Loan‑as‑a‑Service (LaaS) Platform**.
