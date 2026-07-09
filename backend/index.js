@@ -4,7 +4,7 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import tenantResolver from "./src/middlewares/tenant.Resolver.js";
-import payloadSafeguard from "./src/middlewares/payload.safeguard.js";
+// import payloadSafeguard from "./src/middlewares/payload.safeguard.js";
 import rootErrorHandler from "./src/middlewares/rootErrorHandler.js";
 
 const app = express();
@@ -24,7 +24,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use(payloadSafeguard()); // Safeguard for stringified JSON payloads
+// app.use(payloadSafeguard()); // Safeguard for stringified JSON payloads
 
 const PORT = process.env.PORT || 5000;
 if(!PORT) {

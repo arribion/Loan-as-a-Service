@@ -1,5 +1,6 @@
 // import React from 'react'
 
+import Footer from "./components/Footer"
 import Header from "./components/Header"
 import Landing from "./pages/Landing"
 
@@ -8,6 +9,7 @@ const App = () => {
     <div>
       <Header/>
       <Landing />
+      <Footer/>
     </div>
   )
 }

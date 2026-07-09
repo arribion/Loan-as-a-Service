@@ -23,6 +23,73 @@ const whyUs = [
     des: "Reliable infrastructure designed for 99.9% uptime with automatic scaling.",
   },
 ];
+
+export const features = [
+  {
+    id: 2,
+    title: "Automated Credit Decisions",
+    description:
+      "Configure custom credit rules, risk scoring models, affordability checks, and automated approvals.",
+  },
+  {
+    id: 3,
+    title: "Flexible Loan Products",
+    description:
+      "Create flat-rate, reducing-balance, and custom interest products tailored to your lending strategy.",
+  },
+  {
+    id: 4,
+    title: "Instant Loan Disbursement",
+    description:
+      "Connect with payment providers to disburse approved loans directly into customer wallets within seconds.",
+  },
+  {
+    id: 5,
+    title: "Intelligent Repayment Collection",
+    description:
+      "Automated reminders, STK Push payments, webhook processing, and payment reconciliation.",
+  },
+  {
+    id: 6,
+    title: "Double-Entry Accounting",
+    description:
+      "Built-in immutable ledger ensuring every financial transaction remains accurate, auditable, and compliant.",
+  },
+  {
+    id: 8,
+    title: "Powerful Reporting",
+    description:
+      "Export financial reports to Excel or CSV and gain actionable business insights through interactive dashboards.",
+  },
+];
+
+
+export const testimonials = [
+  {
+    id: 1,
+    quote:
+      "We reduced loan processing time from days to minutes. The platform transformed our lending operations and significantly improved customer satisfaction.",
+    name: "James Mwangi",
+    position: "CEO",
+    company: "Digital Lending Company",
+  },
+  {
+    id: 2,
+    quote:
+      "The automation alone saved our operations team hundreds of hours every month. Our staff now focus on growth instead of repetitive manual tasks.",
+    name: "Sarah Wanjiku",
+    position: "Operations Manager",
+    company: "FinTech Solutions",
+  },
+  {
+    id: 3,
+    quote:
+      "Reliable, secure, and built for scale. From loan origination to repayments, everything works seamlessly even under heavy workloads.",
+    name: "David Otieno",
+    position: "Head of Technology",
+    company: "Enterprise Credit Group",
+  },
+];
 import hero_img from "../assets/hero.png"
 const Landing = () => {
   return (
@@ -90,8 +157,9 @@ const Landing = () => {
           </h1>
           <p>
             Built for High-Growth Lending Businesses Whether you're processing
-            hundreds or millions of loans, our platform scales with your business
-            while maintaining enterprise-level security and performance.{" "}
+            hundreds or millions of loans, our platform scales with your
+            business while maintaining enterprise-level security and
+            performance.{" "}
           </p>
 
           <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-4 my-6">
@@ -105,12 +173,85 @@ const Landing = () => {
             ))}
           </div>
         </div>
-        <img src={whyus} alt="" className="max-w-[35em] absolute bottom-[-22em] right-[-15em]" />
+        <img
+          src={whyus}
+          alt=""
+          className="max-w-[35em] absolute bottom-[-22em] right-[-15em]"
+        />
       </section>
 
-      <section className="min-h-screen mx-4">
-<h1></h1>
+      <section className="min-h-screen mt-[70vh] mx-4">
+        <div>
+          <h1>Everything You Need</h1>
+          <h3>Complete Lending Infrastructure</h3>
+        </div>
+
+        <div className="grid gap-8 md:grid-cols-2">
+          {features.map((feature) => (
+            <div
+              key={feature.id}
+              className="rounded-xl border border-gray-200 p-6 hover:shadow-lg transition">
+              <h2 className="text-xl font-semibold mb-2">{feature.title}</h2>
+              <p className="text-gray-600">{feature.description}</p>
+            </div>
+          ))}
+        </div>
       </section>
+
+      <section>
+        <h1>Testimonials</h1>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {testimonials.map((testimonial) => (
+            <div
+              key={testimonial.id}
+              className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm hover:shadow-lg transition">
+              <p className="text-gray-600 italic mb-6">"{testimonial.quote}"</p>
+
+              <div>
+                <h3 className="font-semibold text-lg">{testimonial.name}</h3>
+                <p className="text-sm text-gray-500">{testimonial.position}</p>
+                <p className="text-green-600 font-medium">
+                  {testimonial.company}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-linear-to-br from-green-700 via-green-600 to-emerald-500 py-24">
+        <div className="absolute inset-0 bg-black/10" />
+
+        <div className="relative mx-auto max-w-7xl px-6 text-center">
+          <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-sm font-medium text-green-100 backdrop-blur">
+            Self-Hosted Enterprise Solution
+          </span>
+
+          <h2 className="mt-6 text-4xl font-bold tracking-tight text-white md:text-5xl">
+            Ready to Deploy Your Private Lending Platform?
+          </h2>
+
+          <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-green-50">
+            Take full control of your lending infrastructure with a self-hosted
+            Loan-as-a-Service platform. Deploy on your own servers or private
+            cloud, customize every workflow, and maintain complete ownership of
+            your data while benefiting from enterprise-grade security, dedicated
+            support, and unlimited scalability.
+          </p>
+
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <button className="rounded-lg bg-white px-8 py-4 font-semibold text-green-700 transition hover:bg-green-50">
+              Request a Deployment Consultation
+            </button>
+
+            <button className="rounded-lg border border-white/40 bg-transparent px-8 py-4 font-semibold text-white transition hover:bg-white/10">
+              Talk to Our Solutions Team
+            </button>
+          </div>
+        </div>
+      </section>
+
+      
     </>
   );
 }
