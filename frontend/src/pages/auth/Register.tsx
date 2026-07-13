@@ -1,8 +1,14 @@
 // import React from 'react'
 
+import { Link } from "react-router-dom"
+
 const Register = () => {
   return (
-    <div>Register</div>
+    <section className="min-h-[70vh]">
+      <h1 className="text-2xl">Register</h1>
+      <Link to="/auth/login">
+      <p>Login</p></Link>
+    </section>
   )
 }
 

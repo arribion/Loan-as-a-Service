@@ -1,6 +1,6 @@
 // import React from 'react'
 import whyus from "../assets/whyus.png";
-
+import hero_default from "../assets/hero-default.png";
 const whyUs = [
   {
     id: 1,
@@ -182,8 +182,10 @@ const Landing = () => {
 
       <section className="min-h-screen mt-[70vh] mx-4">
         <div>
-          <h1>Everything You Need</h1>
-          <h3>Complete Lending Infrastructure</h3>
+          <h1 className="text-[clamp(2em,6vw,3em)] font-bold text-2xl text-green-600">
+            Everything You Need
+          </h1>
+          <h3 className="my-4">Complete Lending Infrastructure</h3>
         </div>
 
         <div className="grid gap-8 md:grid-cols-2">
@@ -196,10 +198,11 @@ const Landing = () => {
             </div>
           ))}
         </div>
+        <img src={hero_default} alt="" className="max-w-[40em]" />
       </section>
 
-      <section>
-        <h1>Testimonials</h1>
+      <section className="mx-4 my-12">
+        <h1 className="text-[clamp(2em,6vw,3em)] text-green-900 text-end font-bold">Testimonials</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {testimonials.map((testimonial) => (
             <div
@@ -250,8 +253,6 @@ const Landing = () => {
           </div>
         </div>
       </section>
-
-      
     </>
   );
 }

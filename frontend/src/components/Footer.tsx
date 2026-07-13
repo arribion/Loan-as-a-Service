@@ -91,7 +91,7 @@ const Footer = () => {
           </p>
 
           <p className="mt-6 text-sm text-slate-600">
-            © {new Date().getFullYear()} Arribion Technologies. All rights
+            © {new Date().getFullYear()} Arribion Technologies / Host Pro Limited. All rights
             reserved.
           </p>
         </div>
