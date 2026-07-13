@@ -6,9 +6,10 @@ import { fileURLToPath } from "url";
 import tenantResolver from "./src/middlewares/tenant.Resolver.js";
 // import payloadSafeguard from "./src/middlewares/payload.safeguard.js";
 import rootErrorHandler from "./src/middlewares/rootErrorHandler.js";
+import ping_onrender from "./src/util/ping.js";
 
 const app = express();
-
+ping_onrender()
 // file paths
 export const __filename = fileURLToPath(import.meta.url);
 export const __dirname = path.dirname(__filename);
