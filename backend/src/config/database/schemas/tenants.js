@@ -20,6 +20,7 @@ export const tenants = pgTable(
   "tenants",
   {
     id: uuid("id").defaultRandom().primaryKey().notNull(),
+    // security_role: securityRoleEnum("security_role").notNull().default("company"),
     email: text("email").notNull().unique(), 
     password: text("password").notNull(),
     business_name: varchar("business_name", { length: 200 }),

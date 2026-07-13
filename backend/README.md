@@ -34,7 +34,7 @@ Tenant member setting
 
 Package management endpoints;
 
-- [Get packages](http://localhost:5000/api/v1/package/tiers) *
+- [Get packages](http://localhost:5000/api/v1/package/tiers) * check
 
 - [Update feature and price (null)](http://localhost:5000/)
 
@@ -43,11 +43,12 @@ Package management endpoints;
 Product management endpoints
 
 - add payload
+- Product Payload Example
 
 ```json
 {
   "tenant_id": "6a6af487-eea6-478a-b6a3-616479578d87",
-  "reference_title": "Premium Growth Loan",
+  "reference_title": "School fee Loan",
   "interest_calculation_type": "flat",
   "base_percentage": "12.5000",
   "fine_rules": {},

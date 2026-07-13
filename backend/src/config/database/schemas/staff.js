@@ -19,6 +19,7 @@ export const staff = PgTable("staff", {
     id: varchar("id", { length: 36 }).primaryKey().notNull(),
     name: varchar("name", { length: 100 }).notNull(),
     email: varchar("email", { length: 100 }).notNull().unique(),
+    security_role: securityRoleEnum("security_role").notNull().default("borrower"),
     password: text("password").notNull(),
     user_type: varchar("user_type", { length: 50 }).notNull(),
     branch: varchar("branch", { length: 100 }),

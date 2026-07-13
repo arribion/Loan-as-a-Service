@@ -31,9 +31,9 @@ const cookieOptions = {
 
 // tenant registration function
 export const register_tenant = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
   try {
-    if (!email || !password) {
+    if (!email || !password || !role) {
       return res
         .status(400)
         .json({ success: false, message: "all fields are required" });
