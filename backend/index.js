@@ -40,7 +40,7 @@ if(!PORT) {
   throw new Error("PORT environment variable is not defined");
 }
 
-const host = "localhost"; 
+const host = "0.0.0.0"; 
 const serverUrl = `http://${host}:${PORT}`;
 
 app.use(express.text({ type: "application/json" }));
@@ -66,6 +66,7 @@ import loanRouter from "./src/routes/loan.Route.js";
 
 // route middlewares
 app.use("/api/v1/tenant/auth", authTenantRouter);
+
 app.use("/api/v1/package-tiers", packageTier_Router);
 app.use("/api/v1/users", memberRoute);
 app.use("/api/v1/products", product_Router);
