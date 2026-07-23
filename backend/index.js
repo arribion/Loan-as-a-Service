@@ -19,13 +19,21 @@ app.use(bodyParser.json());
 app.use(express.json());
 // app.use(tenantResolver)
 // allowed origins
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5172",
+      "http://localhost:5173",
+      "http://localhost:5174",
+    ],
+  }),
+);
 // view engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.use(payloadSafeguard()); // Safeguard for stringified JSON payloads
+// app.use(payloadSafeguard()); 
 
 const PORT = process.env.PORT || 5000;
 if(!PORT) {
@@ -64,9 +72,9 @@ app.use("/api/v1/products", product_Router);
 app.use("/api/v1/package", packageTier_Router);
 app.use("/api/v1/loans", loanRouter);
 
-rootErrorHandler(app); // Global error handling middleware
+rootErrorHandler(app);
 
-// start the server
+
 app.listen(PORT, host, () => {
   console.log("app running successfully...");
   console.log(`Server available at: ${serverUrl}`);

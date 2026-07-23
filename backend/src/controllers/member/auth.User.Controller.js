@@ -1,4 +1,5 @@
 import db from "../../config/database/db.js";
+import users, { users } from "../../config/database/schemas/users.js"
 import bcrypt from "bcrypt";
 
 const member_login = async (req, res) => {
@@ -40,5 +41,60 @@ const member_login = async (req, res) => {
     }
 }
  
-const refresh_token = async (req, res) => { }
-const logout_member = async (req, res) => { }
+export const refresh_token = async (req, res) => {
+  const token = req.cookies.refresh_token;
+  if (!token) {
+    return res
+      .status(401)
+      .json({
+        success: false,
+        message: "Access denied, no refresh token provided",
+      });
+  }
+
+  try {
+    const decoded = jwt.verify(token, REFRESH_TOKEN_SECRET);
+
+    // Check if tenant still exists in database
+    const [users] = await db
+      .select()
+      .from(users)
+      .where(eq(users.id, decoded.users_id))
+      .limit(1);
+    if (!users) {
+      return res
+        .status(404)
+        .json({ success: false, message: "User no longer exists" });
+    }
+
+    const new_access_token = jwt.sign(
+      { tenant_id: tenant.id },
+      ACCESS_TOKEN_SECRET,
+      { expiresIn: ACCESS_TOKEN_EXPIRES_IN },
+    );
+
+    res.cookie("access_token", new_access_token, cookieOptions);
+    return res
+      .status(200)
+      .json({ success: true, message: "token refreshed successfully" });
+  } catch (error) {
+    return res
+      .status(403)
+      .json({ success: false, message: "Invalid or expired refresh token" });
+  }
+};
+
+
+export const logout_member = (req, res) => {
+  try {
+    res.clearCookie("access_token", cookieOptions);
+    res.clearCookie("refresh_token", cookieOptions);
+    return res
+      .status(200)
+      .json({ success: true, message: "Logged out successfully" });
+  } catch (error) {
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal server error", error: error.message });
+  }
+};

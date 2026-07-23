@@ -91,6 +91,7 @@ export const testimonials = [
   },
 ];
 import hero_img from "../assets/hero.png"
+import LandingPageTiers from "../components/LandingPageTiers";
 const Landing = () => {
   return (
     <>
@@ -166,7 +167,7 @@ const Landing = () => {
             {whyUs.map((item, index) => (
               <div
                 key={index}
-                className="border border-slate-500/50 shadow-md rounded-[10px] p-4">
+                className="border border-slate-500/20 shadow-md rounded-[10px] p-4">
                 <h3 className="font-bold my-3 text-[18px]">{item.why}</h3>
                 <p>{item.des}</p>
               </div>
@@ -176,7 +177,7 @@ const Landing = () => {
         <img
           src={whyus}
           alt=""
-          className="max-w-[35em] absolute bottom-[-22em] right-[-15em]"
+          className="max-w-[35em] absolute bottom-[-22em] shadow right-[-15em]"
         />
       </section>
 
@@ -200,6 +201,8 @@ const Landing = () => {
         </div>
         <img src={hero_default} alt="" className="max-w-[40em]" />
       </section>
+
+      <LandingPageTiers />
 
       <section className="mx-4 my-12">
         <h1 className="text-[clamp(2em,6vw,3em)] text-green-900 text-end font-bold">Testimonials</h1>

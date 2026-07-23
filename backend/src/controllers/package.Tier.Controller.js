@@ -7,13 +7,13 @@ export const getPackageTiers = (req, res) => {
             message: "no package tiers found"
         });
     }
-    const packageTiers = tiers.map(tier => ({
+    const data = tiers.map(tier => ({
         id: tier.id,
         name: tier.name,
         price: tier.price,
         features: tier.features
     }));
-    res.json(packageTiers);
+    res.json(data);
 };
 
 // export const editPackageTier = (req, res) => {
