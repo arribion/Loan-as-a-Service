@@ -1,17 +1,56 @@
+version: '3.8'
+
 services:
+  # 1. Express Backend
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: express_backend
+    ports:
+      - "${PORT}:${PORT}" 
+    environment:
+      - NODE_ENV=production
+      # Links your app to the internal Docker network names for Postgres and Redis
+      - DATABASE_URL=postgres://${DATABASE_USER}:${DATABASE_PASSWORD}@postgres_db:5432/${DATABASE_NAME}
+      - REDIS_URL=redis://redis_cache:6379
+    env_file:
+      - .env # Injects all session secrets, Cloudinary keys, and encryption secrets
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+      redis_cache:
+        condition: service_started
+
+  # 2. Local PostgreSQL Database
   postgres_db:
     image: postgres:16-alpine
     container_name: hostpro_laas
     restart: always
     environment:
-      POSTGRES_USER: hostpro_user
-      POSTGRES_PASSWORD: hostpro_password
-      POSTGRES_DB: hostpro_laas_db
+      POSTGRES_USER: ${DATABASE_USER}       # Read securely from your .env
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD} # Read securely from your .env
+      POSTGRES_DB: ${DATABASE_NAME}         # Read securely from your .env
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # 3. Local Redis Cache
+  redis_cache:
+    image: redis:7-alpine
+    container_name: redis_cache
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
 
 volumes:
   pgdata:
     driver: local
+  redis_data:
