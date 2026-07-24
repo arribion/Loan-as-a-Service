@@ -1,0 +1,41 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1781291441742,
+      "tag": "0000_deep_rattler",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1781507730882,
+      "tag": "0001_oval_tusk",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1782305148798,
+      "tag": "0002_bizarre_pretty_boy",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1782369250376,
+      "tag": "0003_gifted_cloak",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1782369338201,
+      "tag": "0004_melodic_pride",
+      "breakpoints": true
+    }
+  ]
+}
