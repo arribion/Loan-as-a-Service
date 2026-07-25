@@ -7,19 +7,19 @@ import {
   timestamp,
   index,
   check,
+  varchar,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-
 import tenants from "./tenants.js";
-import users from "./users.js";
-import loanProducts from "./loan_products.js"; 
+import customerProfiles from "./customer_profiles.js";
+import loanProducts from "./loan_products.js";
 
-export const loanStatusEnum = pgEnum("loan_status", [
-  "pending_approval",
+export const loanLifecycleEnum = pgEnum("lifecycle_state", [
+  "pending",
   "active",
-  "fully_repaid",
-  "defaulted",
-  "written_off",
+  "overdue",
+  "restructured",
+  "closed",
 ]);
 
 export const loans = pgTable(
@@ -28,37 +28,42 @@ export const loans = pgTable(
     id: uuid("id").defaultRandom().primaryKey().notNull(),
     tenant_id: uuid("tenant_id")
       .notNull()
-      .references(() => tenants.id),
-    borrower_id: uuid("borrower_id")
+      .references(() => tenants.id, { onDelete: "cascade" }), // if tenant deleted, cascade loans
+    customer_profile_id: uuid("customer_profile_id")
       .notNull()
-      .references(() => users.id),
+      .references(() => customerProfiles.id, { onDelete: "restrict" }), // prevent deleting a customer with active loans
     product_id: uuid("product_id")
       .notNull()
-      .references(() => loanProducts.id),
-    principal_amount: numeric("principal_amount", {
-      precision: 15,
-      scale: 2,
-    }).notNull().default("0.00"),
-    balance_outstanding: numeric("balance_outstanding", {
-      precision: 15,
-      scale: 2,
-    }).notNull().default("0.00"),
-    status: loanStatusEnum("status").default("pending_approval").notNull(),
+      .references(() => loanProducts.id, { onDelete: "restrict" }),
+    principal_amount: numeric("principal_amount", { precision: 15, scale: 2 })
+      .notNull()
+      .default("0.00"),
+    active_balance: numeric("active_balance", { precision: 15, scale: 2 })
+      .notNull()
+      .default("0.00"),
+    lifecycle_state: loanLifecycleEnum("lifecycle_state")
+      .default("pending")
+      .notNull(),
     term_days: integer("term_days").notNull(),
+    maturity_date: timestamp("maturity_date", {
+      withTimezone: true,
+      mode: "string",
+    }).notNull(), // date only, but we use timestamp for simplicity
     disbursed_at: timestamp("disbursed_at", {
       withTimezone: true,
       mode: "string",
-    }).defaultNow(),
+    }),
+    hostpay_reference: varchar("hostpay_reference", { length: 50 }),
     created_at: timestamp("created_at", { withTimezone: true, mode: "string" })
       .defaultNow()
       .notNull(),
   },
   (table) => [
     index("idx_loans_tenant").on(table.tenant_id),
-    index("idx_loans_borrower").on(table.borrower_id),
-    index("idx_loans_status").on(table.status),
+    index("idx_loans_customer").on(table.customer_profile_id),
+    index("idx_loans_state").on(table.lifecycle_state),
     check("principal_check", sql`${table.principal_amount} > 0`),
-    check("balance_check", sql`${table.balance_outstanding} >= 0`),
+    check("balance_check", sql`${table.active_balance} >= 0`),
   ],
 );
 

@@ -4,7 +4,7 @@ import { eq, and } from "drizzle-orm";
 import bcrypt from "bcrypt";
 
 const add_member = async (req, res) => {
-  const { tenant_id } = req.params;
+  const tenantId = req.user.tenantId; // from JWT
   const { full_name, email_address, security_role } = req.body;
   try {
     if (!full_name || !email_address || !security_role) {
@@ -40,7 +40,7 @@ const add_member = async (req, res) => {
         password_hash: temporary_password_hash,
       })
       .returning();
-    
+
     // Destructure safely to remove password_hash from the response object
     const { password_hash, ...member_details } = new_member;
 

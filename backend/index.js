@@ -62,7 +62,7 @@ app.get("/", (req, res) => {
 
 
 // routes
-import authTenantRouter from "./src/routes/auth.Tenant.Route.js";
+import auth_router from "./src/routes/auth.Route.js";
 import memberRoute from "./src/routes/member.Route.js";
 import product_Router from "./src/routes/product.Route.js";
 import packageTier_Router from "./src/routes/package.Route.js";
@@ -70,7 +70,7 @@ import loanRouter from "./src/routes/loan.Route.js";
 
 
 // route middlewares
-app.use("/api/v1/tenant/auth", authTenantRouter);
+app.use("/api/v1/user/auth", auth_router);
 app.use("/api/v1/package-tiers", packageTier_Router);
 app.use("/api/v1/users", memberRoute);
 app.use("/api/v1/products", product_Router);

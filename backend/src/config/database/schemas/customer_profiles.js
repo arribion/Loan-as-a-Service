@@ -6,9 +6,10 @@ import {
   timestamp,
   index,
   check,
-} from "drizzle-orm/pg-core"; 
+} from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
 import users from "./users.js";
+
 export const customer_profiles = pgTable(
   "customer_profiles",
   {
@@ -17,7 +18,9 @@ export const customer_profiles = pgTable(
       .notNull()
       .unique()
       .references(() => users.id, { onDelete: "cascade" }),
-    national_identity_number: text("national_identity_number").notNull().unique().default(""),
+    national_identity_number: text("national_identity_number")
+      .notNull()
+      .unique(), // no default
     phone_number: text("phone_number").notNull(),
     encryption_key_vector: text("encryption_key_vector").notNull(),
     credit_score: smallint("credit_score").default(0),

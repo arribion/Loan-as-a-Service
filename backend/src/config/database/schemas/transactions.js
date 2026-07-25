@@ -1,32 +1,24 @@
 import {
   pgTable,
   uuid,
-  numeric,
   varchar,
   pgEnum,
-  jsonb,
+  numeric,
   timestamp,
   index,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
-// referencies
 import tenants from "./tenants.js";
 import loans from "./loans.js";
 
 export const transactionTypeEnum = pgEnum("transaction_type", [
   "disbursement",
   "repayment",
-  "penalty_charge",
-  "interest_accrual",
-  "waiver",
-  "write_off",
+  "penalty",
+  "reversal",
 ]);
-
-export const transactionStatusEnum = pgEnum("transaction_status", [
-  "pending",
-  "completed",
-  "failed",
-  "reversed",
+export const ledgerDirectionEnum = pgEnum("ledger_direction", [
+  "debit",
+  "credit",
 ]);
 
 export const transactions = pgTable(
@@ -35,22 +27,36 @@ export const transactions = pgTable(
     id: uuid("id").defaultRandom().primaryKey().notNull(),
     tenant_id: uuid("tenant_id")
       .notNull()
-      .references(() => tenants.id),
+      .references(() => tenants.id, { onDelete: "cascade" }),
     loan_id: uuid("loan_id")
       .notNull()
-      .references(() => loans.id),
-    type: transactionTypeEnum("type").notNull().default("repayment"),
-    status: transactionStatusEnum("status").default("pending").notNull(),
-    amount: numeric("amount", { precision: 15, scale: 2 }).notNull().default("0.00"), // Absolute value, direction determined by type
-    metadata: jsonb("metadata").default(sql`"{}"::jsonb`).notNull(), // Store internal ledger logs or gateway codes
-    created_at: timestamp("created_at", { withTimezone: true, mode: "string" })
+      .references(() => loans.id, { onDelete: "restrict" }), // prevent deleting a loan with transactions
+    external_receipt_reference: varchar("external_receipt_reference", {
+      length: 100,
+    }).unique(),
+    ledger_direction: ledgerDirectionEnum("ledger_direction").notNull(),
+    transaction_type: transactionTypeEnum("transaction_type").notNull(),
+    raw_amount: numeric("raw_amount", { precision: 15, scale: 2 })
+      .notNull()
+      .default("0.00"),
+    penalty_portion: numeric("penalty_portion", { precision: 15, scale: 2 })
+      .notNull()
+      .default("0.00"),
+    interest_portion: numeric("interest_portion", { precision: 15, scale: 2 })
+      .notNull()
+      .default("0.00"),
+    principal_portion: numeric("principal_portion", { precision: 15, scale: 2 })
+      .notNull()
+      .default("0.00"),
+    log_timestamp: timestamp("log_timestamp", { withTimezone: true })
       .defaultNow()
       .notNull(),
   },
   (table) => [
-    index("idx_transactions_tenant").on(table.tenant_id),
-    index("idx_transactions_loan").on(table.loan_id),
-    index("idx_transactions_type_status").on(table.type, table.status),
+    index("idx_txn_tenant").on(table.tenant_id),
+    index("idx_txn_loan").on(table.loan_id),
+    index("idx_txn_ref").on(table.external_receipt_reference),
+    index("idx_txn_time").on(table.log_timestamp),
   ],
 );
 
