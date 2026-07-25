@@ -1,10 +1,10 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Building2, Check, Eye, EyeOff, Users } from "lucide-react";
-import { Logo, Field, inputCls, useToast } from "../components/ui";
-import useAuth from "../hooks/useAuth";
-import { PLANS, kes, type PlanId } from "../data/mock";
-import { cn } from "../utils/cn";
+import { Logo, Field, inputCls, useToast } from "../../components/ui";
+import useAuth from "../../hooks/useAuth";
+import { PLANS, kes, type PlanId } from "../../data/mock";
+import { cn } from "../../utils/cn";
 
 const COUNTIES = ["Nairobi", "Kiambu", "Nakuru", "Mombasa", "Kisumu", "Uasin Gishu", "Machakos", "Garissa", "Meru", "Kakamega"];
 
