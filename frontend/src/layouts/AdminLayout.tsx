@@ -15,6 +15,7 @@ import { UpgradeModal } from "../components/admin/UpgradeModel";
 import Topbar from "../components/admin/Topbar";
 import Sidebar from "../components/admin/Sidebar";
 import { Outlet } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 ChartJS.register(
   CategoryScale,
@@ -28,7 +29,7 @@ ChartJS.register(
 export function AdminLayout() {
   const { user, memberCap, updatePlan } = useAuth();
   const { push } = useToast();
-  const [added, setAdded] = useState<Member[]>([]);
+  const [added] = useState<Member[]>([]);
   const [showUpgrade, setShowUpgrade] = useState(false);
 
   const totalMembers = (user?.memberBase ?? 0) + added.length;

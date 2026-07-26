@@ -1,12 +1,5 @@
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import {
-  Users,
-  ArrowUpRight,
-  TrendingUp,
-  Wallet,
-  AlertTriangle,
-} from "lucide-react";
+import { useState } from "react";
+import { Users, ArrowUpRight, TrendingUp, Wallet, AlertTriangle } from "lucide-react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -17,18 +10,19 @@ import {
   Legend,
 } from "chart.js";
 import { Bar, Doughnut } from "react-chartjs-2";
-import { useToast,} from "../../components/ui";
 import useAuth from "../../hooks/useAuth";
 import {
-  SEED_MEMBERS,
   LOANS,
   PAYMENTS,
   kes,
   planById,
   type Member,
   type Loan,
+  CHART_CASHFLOW,
+  CHART_PORTFOLIO,
 } from "../../data/mock";
 import { cn } from "../../utils/cn";
+import { MethodTag } from "../../components/admin/MethodTag";
 
 ChartJS.register(
   CategoryScale,

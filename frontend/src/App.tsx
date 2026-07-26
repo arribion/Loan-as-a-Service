@@ -12,11 +12,13 @@ import { ToastProvider, ProtectedRoute } from "./components/ui";
 import Landing from "./pages/Landing";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
-import AdminDashboard from "./pages/admin/AdminDashboard";
 import MemberDashboard from "./pages/client/MemberDashboard";
+import NotFound from "./components/NotFound";
+
 import Layout from "./layouts/Layout";
 import AuthLayout from "./layouts/AuthLayout";
-import NotFound from "./components/NotFound";
+import AdminLayout from "./layouts/AdminLayout";
+import Overview from "./pages/admin/Overview";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -45,10 +47,11 @@ export default function App() {
         <ToastProvider>
           <ScrollToTop />
           <Routes>
+            {/* Layout - header na footer */}
             <Route path="/" element={<Layout />}>
               <Route path="/" element={<Landing />} />
             </Route>
-
+            {/* auth layout */}
             <Route element={<AuthLayout />}>
               <Route
                 path="/login"
@@ -63,31 +66,37 @@ export default function App() {
                 path="/register"
                 element={
                   <RedirectIfAuthed>
-                    {" "}
-                    <Register />{" "}
+                    <Register />
                   </RedirectIfAuthed>
                 }
               />
-              <Route path="*" element={<NotFound/>} />
+              <Route path="*" element={<NotFound />} />
             </Route>
 
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoute role="admin">
-                  {" "}
-                  <AdminDashboard />{" "}
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/member"
-              element={
-                <ProtectedRoute role="member">
-                  <MemberDashboard />
-                </ProtectedRoute>
-              }
-            />
+            {/* admin layout */}
+            <Route element={<AdminLayout />}>
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoute role="admin">
+                    {" "}
+                    <Overview />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+
+            {/* members layout */}
+            <Route>
+              <Route
+                path="/member"
+                element={
+                  <ProtectedRoute role="member">
+                    <MemberDashboard />{" "}
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
           </Routes>
         </ToastProvider>
       </AuthProvider>

@@ -1,10 +1,11 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Logo from '../ui/Logo'
 import { Crown, HandCoins, LayoutDashboard, LogOut, ReceiptText, Users } from 'lucide-react';
 import { cn } from '../../utils/cn';
 import { PlanBadge } from '../ui';
 import useAuth from '../../hooks/useAuth';
 import { useState } from 'react';
+import type { Member } from '../../data/mock';
 
 const NAV: { id: Tab; label: string; icon: typeof Users }[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
@@ -16,10 +17,21 @@ const NAV: { id: Tab; label: string; icon: typeof Users }[] = [
 type Tab = "overview" | "members" | "loans" | "payments";
 
 const Sidebar = () => {
-    const { user, memberCap } = useAuth();
-    const [tab, setTab] = useState<Tab>("overview");
-    const totalMembers = (user?.memberBase ?? 0) + added.length;
-    const usagePct = memberCap === Infinity ? 4 : Math.min(100, Math.round((totalMembers / memberCap) * 100));
+  const navigate = useNavigate();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [added, setAdded] = useState<Member[]>([]);
+  const { user, logout, memberCap } = useAuth();
+  const [tab, setTab] = useState<Tab>("overview");
+  const [_showUpgrade, setShowUpgrade] = useState(false);
+  
+
+  const totalMembers = (user?.memberBase ?? 0) + added.length;
+  const usagePct = memberCap === Infinity ? 4 : Math.min(100, Math.round((totalMembers / memberCap) * 100));
+  
+   const doLogout = () => {
+     logout();
+     navigate("/");
+   };
   return (
       <aside className="sticky top-0 hidden h-screen flex-col border-r border-cream/10 bg-pine text-cream lg:flex">
         <div className="border-b border-cream/10 px-6 py-5">

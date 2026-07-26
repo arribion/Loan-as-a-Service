@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Logo } from '../../components/ui';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { HandCoins, LayoutDashboard, LogOut, ReceiptText, Search, Users } from 'lucide-react';
 import { cn } from '../../utils/cn';
+import useAuth from '../../hooks/useAuth';
 
 const NAV: { id: Tab; label: string; icon: typeof Users }[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard },
@@ -12,10 +13,18 @@ const NAV: { id: Tab; label: string; icon: typeof Users }[] = [
 ];
 
 type Tab = "overview" | "members" | "loans" | "payments";
-const firstName = user?.name.split(" ")[0] ?? "there";
+
 
 const Topbar = () => {
-    const [tab, setTab] = useState<Tab>("overview");
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [tab, setTab] = useState<Tab>("overview");
+  const [query, setQuery] = useState("");
+  
+    const doLogout = () => {
+    logout();
+    navigate("/");
+  };
     return (
         <header className="sticky top-0 z-40 border-b border-ink/8 bg-cream/90 backdrop-blur">
           <div className="flex items-center gap-4 px-5 py-3.5 lg:px-8">
