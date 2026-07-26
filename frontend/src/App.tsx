@@ -98,7 +98,7 @@ export default function App() {
               <Route index element={<Overview />} />
               <Route path="members" element={<Members />} />
               <Route path="products" element={<Product />} />
-              <Route path="loan" element={<Loans />} />
+              <Route path="loans" element={<Loans />} />
               <Route path="payments" element={<Payments />} />
               <Route path="loan-calculator" element={<LoanCalculator />} />
               <Route path="settings" element={<Settings />} />

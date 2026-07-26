@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Logo from "../ui/Logo";
 import {
   Calculator,
@@ -9,7 +9,6 @@ import {
   Folder,
   HandCoins,
   LayoutDashboard,
-  LogOut,
   ReceiptText,
   Users,
 } from "lucide-react";
@@ -55,10 +54,9 @@ const NAV: {
 ];
 
 const Sidebar: React.FC = () => {
-  const navigate = useNavigate();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [added, setAdded] = useState<Member[]>([]);
-  const { user, logout, memberCap } = useAuth();
+  const { user, memberCap } = useAuth();
   const [tab, setTab] = useState<Tab>("overview");
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [showUpgrade, setShowUpgrade] = useState(false);
@@ -68,11 +66,6 @@ const Sidebar: React.FC = () => {
     memberCap === Infinity
       ? 4
       : Math.min(100, Math.round((totalMembers / memberCap) * 100));
-
-  const doLogout = () => {
-    logout();
-    navigate("/");
-  };
 
   return (
     <aside className="sticky top-0 overflow-y-auto hidden h-screen flex-col border-r border-cream/10 bg-pine text-cream lg:flex">
@@ -139,29 +132,6 @@ const Sidebar: React.FC = () => {
             <Crown className="h-3.5 w-3.5" /> Upgrade plan
           </button>
         )}
-      </div>
-
-      <div className="flex items-center gap-3 border-t border-cream/10 px-5 py-4">
-        <span className="grid h-9 w-9 place-items-center rounded-full bg-forest font-display text-sm font-bold text-gold">
-          {user!.name
-            .split(" ")
-            .map((w) => w[0])
-            .join("")
-            .slice(0, 2)}
-        </span>
-
-        <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold">{user!.name}</p>
-          <p className="truncate text-[11px] text-cream/45">{user!.org}</p>
-        </div>
-
-        <button
-          onClick={doLogout}
-          title="Log out"
-          className="text-cream/50 transition hover:text-gold"
-          aria-label="Log out">
-          <LogOut className="h-4.5 w-4.5" />
-        </button>
       </div>
     </aside>
   );
