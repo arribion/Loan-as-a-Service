@@ -1,4 +1,10 @@
-import { createContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react";
 import { planById, type PlanId } from "../data/mock";
 
 export type Role = "admin" | "member";
@@ -9,7 +15,7 @@ export interface SessionUser {
   role: Role;
   org: string;
   plan: PlanId;
-  memberBase: number; // members that exist "server-side" before this session
+  memberBase: number;
 }
 
 interface RegisterPayload {
@@ -23,7 +29,11 @@ interface RegisterPayload {
 
 interface AuthCtx {
   user: SessionUser | null;
-  login: (email: string, password: string) => { ok: boolean; error?: string; role?: Role };
+  loading: boolean;
+  login: (
+    email: string,
+    password: string,
+  ) => { ok: boolean; error?: string; role?: Role };
   register: (payload: RegisterPayload) => { ok: boolean; error?: string };
   updatePlan: (plan: PlanId) => void;
   logout: () => void;
@@ -82,10 +92,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   });
 
+  const [loading, setLoading] = useState<boolean>(true);
+
+  // Persist session whenever user changes
   useEffect(() => {
     if (user) localStorage.setItem(SESSION_KEY, JSON.stringify(user));
     else localStorage.removeItem(SESSION_KEY);
   }, [user]);
+
+  // Simulate initial auth resolution (keeps UI from flashing while app mounts)
+  useEffect(() => {
+    // If you have async validation, replace this with real async call.
+    // Small timeout ensures components can read `loading` before it's cleared.
+    const t = setTimeout(() => setLoading(false), 0);
+    return () => clearTimeout(t);
+  }, []);
 
   const value = useMemo<AuthCtx>(() => {
     const login: AuthCtx["login"] = (email, password) => {
@@ -114,16 +135,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
         return { ok: true, role: "admin" };
       }
-      return { ok: false, error: "Invalid email or password. Try a demo account below." };
+      return {
+        ok: false,
+        error: "Invalid email or password. Try a demo account below.",
+      };
     };
 
     const register: AuthCtx["register"] = (payload) => {
       const e = payload.email.trim().toLowerCase();
-      if (e === DEMO_ADMIN.email || e === DEMO_MEMBER.email || readTenants().some((t) => t.email.toLowerCase() === e)) {
-        return { ok: false, error: "An account with this email already exists." };
+      if (
+        e === DEMO_ADMIN.email ||
+        e === DEMO_MEMBER.email ||
+        readTenants().some((t) => t.email.toLowerCase() === e)
+      ) {
+        return {
+          ok: false,
+          error: "An account with this email already exists.",
+        };
       }
       const tenant: StoredTenant = { ...payload, email: payload.email.trim() };
-      localStorage.setItem(TENANTS_KEY, JSON.stringify([...readTenants(), tenant]));
+      localStorage.setItem(
+        TENANTS_KEY,
+        JSON.stringify([...readTenants(), tenant]),
+      );
       setUser({
         name: payload.name,
         email: tenant.email,
@@ -140,7 +174,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!u) return u;
         const next = { ...u, plan };
         const tenants = readTenants();
-        const idx = tenants.findIndex((t) => t.email.toLowerCase() === u.email.toLowerCase());
+        const idx = tenants.findIndex(
+          (t) => t.email.toLowerCase() === u.email.toLowerCase(),
+        );
         if (idx >= 0) {
           tenants[idx] = { ...tenants[idx], plan };
           localStorage.setItem(TENANTS_KEY, JSON.stringify(tenants));
@@ -153,8 +189,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const memberCap = user ? planById(user.plan).memberCap : 0;
 
-    return { user, login, register, updatePlan, logout, memberCap };
-  }, [user]);
+    return { user, loading, login, register, updatePlan, logout, memberCap };
+  }, [user, loading]);
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

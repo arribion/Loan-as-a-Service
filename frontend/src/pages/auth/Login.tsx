@@ -9,7 +9,9 @@ import {
   Smartphone,
   Users,
 } from "lucide-react";
-import { Logo, Field, inputCls, useToast } from "../../components/ui";
+import { useToast } from "../../components/ui/Toaster";
+import Logo from "../../components/ui/Logo";
+import { Field, inputCls } from "../../components/ui/Field";
 import useAuth from "../../hooks/useAuth";
 
 export default function Login() {

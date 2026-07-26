@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { useToast } from "../components/ui"
+import { useToast } from "../components/ui/Toaster";
 import { planById, type Member } from "../data/mock";
 import { UpgradeModal } from "../components/admin/UpgradeModel";
 import Topbar from "../components/admin/Topbar";

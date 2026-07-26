@@ -21,7 +21,7 @@ import {
   Zap,
   Send,
 } from "lucide-react";
-import { Reveal } from "../components/ui";
+import { Reveal } from "../components/ui/ScrollReveal";
 import { cn } from "../utils/cn";
 import Pricing from "../components/Pricing";
 import { TESTIMONIALS, LANDER_NAMES } from "../data/mock";

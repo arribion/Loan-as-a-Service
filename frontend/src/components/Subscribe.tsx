@@ -1,6 +1,7 @@
 // NEWSLETTER 
 import  { useState, type FormEvent } from 'react'
-import { Reveal, useToast } from './ui';
+import { Reveal } from './ui/ScrollReveal';
+import { useToast } from './ui/Toaster';
 import { ArrowUpRight, BarChart3, BellRing, ShieldCheck } from 'lucide-react';
 import { cn } from '../utils/cn';
 

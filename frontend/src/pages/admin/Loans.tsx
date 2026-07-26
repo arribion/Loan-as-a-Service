@@ -1,5 +1,4 @@
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { Plus, CheckCircle2 } from "lucide-react";
 import {
   Chart as ChartJS,
@@ -10,15 +9,9 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { StatusPill, useToast } from "../../components/ui";
-import useAuth from "../../hooks/useAuth";
-import {
-  SEED_MEMBERS,
-  LOANS,
-  kes,
-  type Member,
-  type Loan,
-} from "../../data/mock";
+import { useToast } from "../../components/ui/Toaster";
+import { StatusPill } from "../../components/ui/Pills&Badges";
+import { LOANS, kes, type Loan } from "../../data/mock";
 
 ChartJS.register(
   CategoryScale,
@@ -30,11 +23,8 @@ ChartJS.register(
 );
 
 const Loans = () => {
-     const { user, memberCap } = useAuth();
       const { push } = useToast();
-      const [added, setAdded] = useState<Member[]>([]);
       const [loans, setLoans] = useState<Loan[]>(LOANS);
-      const totalMembers = (user?.memberBase ?? 0) + added.length;
    
       const activeLoans = loans.filter(
         (l) => l.status === "Active" || l.status === "Overdue",

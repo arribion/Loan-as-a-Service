@@ -68,6 +68,7 @@ export const kes = (n: number) =>
 
 /* ---------------- mock members (demo tenant: Baraka Chama, Lite plan) ---------------- */
 export interface Member {
+  email: Key | null | undefined;
   id: string;
   name: string;
   phone: string;

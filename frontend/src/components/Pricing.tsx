@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom';
-import { Reveal } from './ui';
+import { Reveal } from './ui/ScrollReveal';
 import { ArrowRight, Check, Pill } from 'lucide-react';
 import { cn } from '../utils/cn';
 

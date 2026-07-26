@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LogOut, Smartphone, GraduationCap, PiggyBank, Gauge, CalendarClock, CheckCircle2, Loader2, ArrowDownLeft, ShieldCheck } from "lucide-react";
-import { Logo, StatusPill, useToast } from "../../components/ui";
+import { useToast } from "../../components/ui/Toaster";
+import Logo from "../../components/ui/Logo";
+import { StatusPill } from "../../components/ui/Pills&Badges";
 import useAuth from "../../hooks/useAuth";
 import { MEMBER_INSTALMENTS, kes, type Instalment } from "../../data/mock";
 import { cn } from "../../utils/cn";

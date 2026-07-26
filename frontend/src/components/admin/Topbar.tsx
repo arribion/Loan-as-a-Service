@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Logo } from '../../components/ui';
+import Logo from '../ui/Logo';
 import { Link, useNavigate } from 'react-router-dom';
 import { HandCoins, LayoutDashboard, LogOut, ReceiptText, Search, Users } from 'lucide-react';
 import { cn } from '../../utils/cn';
