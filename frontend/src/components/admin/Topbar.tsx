@@ -62,9 +62,10 @@ const Topbar = () => {
                 <button
                   onClick={doLogout}
                   title="Log out"
-                  className="text-cream/50 transition hover:text-gold"
+                  className="text-green-600 transition hover:text-gold flex gap-2 items-center"
                   aria-label="Log out">
-                  <LogOut className="h-4.5 w-4.5" />
+              <LogOut className="h-4.5 w-4.5" />
+              logout
                 </button>
               </div>
            </div>

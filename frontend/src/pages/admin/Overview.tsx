@@ -128,48 +128,48 @@ export default function Overview(): JSX.Element {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <nav className="inline-flex rounded-lg bg-cream p-1">
-            <button
-              onClick={() => setTab("overview")}
-              className={cn(
-                "px-3 py-1.5 text-sm font-semibold rounded-md",
-                tab === "overview" ? "bg-forest/10 text-forest" : "text-ink/60",
-              )}>
-              Overview
-            </button>
-            <button
-              onClick={() => setTab("members")}
-              className={cn(
-                "px-3 py-1.5 text-sm font-semibold rounded-md",
-                tab === "members" ? "bg-forest/10 text-forest" : "text-ink/60",
-              )}>
-              Members
-            </button>
-            <button
-              onClick={() => setTab("loans")}
-              className={cn(
-                "px-3 py-1.5 text-sm font-semibold rounded-md",
-                tab === "loans" ? "bg-forest/10 text-forest" : "text-ink/60",
-              )}>
-              Loans
-            </button>
-            <button
-              onClick={() => setTab("payments")}
-              className={cn(
-                "px-3 py-1.5 text-sm font-semibold rounded-md",
-                tab === "payments" ? "bg-forest/10 text-forest" : "text-ink/60",
-              )}>
-              Payments
-            </button>
-          </nav>
+        <button
+          onClick={() => setTab("loans")}
+          className="inline-flex items-center gap-1.5 rounded-lg bg-pine px-4 py-2.5 text-sm font-bold text-cream transition hover:bg-forest">
+          Review pending loans <ArrowUpRight className="h-4 w-4" />
+        </button>
+      </div>
 
+      <div className="flex justify-end">
+        <nav className="inline-flex rounded-lg bg-cream p-1">
+          <button
+            onClick={() => setTab("overview")}
+            className={cn(
+              "px-3 py-1.5 text-sm font-semibold rounded-md",
+              tab === "overview" ? "bg-forest/10 text-forest" : "text-ink/60",
+            )}>
+            Overview
+          </button>
+          <button
+            onClick={() => setTab("members")}
+            className={cn(
+              "px-3 py-1.5 text-sm font-semibold rounded-md",
+              tab === "members" ? "bg-forest/10 text-forest" : "text-ink/60",
+            )}>
+            Members
+          </button>
           <button
             onClick={() => setTab("loans")}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-pine px-4 py-2.5 text-sm font-bold text-cream transition hover:bg-forest">
-            Review pending loans <ArrowUpRight className="h-4 w-4" />
+            className={cn(
+              "px-3 py-1.5 text-sm font-semibold rounded-md",
+              tab === "loans" ? "bg-forest/10 text-forest" : "text-ink/60",
+            )}>
+            Loans
           </button>
-        </div>
+          <button
+            onClick={() => setTab("payments")}
+            className={cn(
+              "px-3 py-1.5 text-sm font-semibold rounded-md",
+              tab === "payments" ? "bg-forest/10 text-forest" : "text-ink/60",
+            )}>
+            Payments
+          </button>
+        </nav>
       </div>
 
       {/* Overview */}

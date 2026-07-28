@@ -30,6 +30,7 @@ export const users = pgTable(
     full_name: varchar("full_name", { length: 150 }).notNull(),
     email_address: varchar("email_address", { length: 254 }).notNull().unique(),
     password_hash: varchar("password_hash", { length: 255 }).notNull(),
+    phone_number: varchar("phone_number", { length: 20 }),
     security_role: securityRoleEnum("security_role")
       .notNull()
       .default("borrower"),

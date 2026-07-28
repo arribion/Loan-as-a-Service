@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../ui/Logo";
 import {
+  BanknoteArrowDown,
   Calculator,
   Clock,
   Cog,
   Crown,
-  Folder,
   HandCoins,
   LayoutDashboard,
   ReceiptText,
@@ -35,7 +35,12 @@ const NAV: {
 }[] = [
   { id: "overview", label: "Overview", icon: LayoutDashboard, to: "/admin" },
   { id: "members", label: "Members", icon: Users, to: "/admin/members" },
-  { id: "products", label: "Products", icon: Folder, to: "/admin/products" },
+  {
+    id: "products",
+    label: "Products",
+    icon: BanknoteArrowDown,
+    to: "/admin/products",
+  },
   {
     id: "loan-calculator",
     label: "Loan calculator",

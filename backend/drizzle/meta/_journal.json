@@ -8,6 +8,13 @@
       "when": 1784965992572,
       "tag": "0000_petite_toad",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1785232425299,
+      "tag": "0001_add_phone_to_users",
+      "breakpoints": true
     }
   ]
 }

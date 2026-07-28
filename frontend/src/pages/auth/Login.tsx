@@ -9,13 +9,19 @@ import {
   Smartphone,
   Users,
 } from "lucide-react";
+import axios, { AxiosError } from "axios";
 import { useToast } from "../../components/ui/Toaster";
 import Logo from "../../components/ui/Logo";
-import { Field, inputCls } from "../../components/ui/Field";
-import useAuth from "../../hooks/useAuth";
+
+export const inputCls =
+  "w-full rounded-lg border border-ink/15 bg-cream px-3.5 py-2.5 text-sm text-ink outline-none transition placeholder:text-ink/35 focus:border-forest focus:ring-2 focus:ring-forest/20";
+
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+if (BASE_URL) {
+    console.log("error accessing base url on login page")
+  }
 
 export default function Login() {
-  const { login } = useAuth();
   const navigate = useNavigate();
   const { push } = useToast();
   const [email, setEmail] = useState("");
@@ -24,20 +30,49 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-  const submit = (e?: FormEvent, em = email, pw = password) => {
+  const submit = async (e?: FormEvent, em = email, pw = password) => {
     e?.preventDefault();
     setError(null);
     if (!em || !pw) return setError("Enter your email and password.");
     setBusy(true);
-    setTimeout(() => {
-      const res = login(em, pw);
+
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/auth/login`,
+        { email: em, password: pw },
+        { withCredentials: true },
+      );
+
+      const { user } = response.data;
+      push(`Karibu back! Signed in as ${user.fullName}.`);
+      // Navigate based on role
+      if (user.role === "admin" || user.role === "loan_officer") {
+        navigate("/admin");
+      } else {
+        navigate("/member");
+      }
+    } catch (err) {
+      const error = err as AxiosError<{ message?: string }>;
+      let msg = "Login failed. Please try again.";
+      if (error.response) {
+        const data = error.response.data;
+        if (data?.message) {
+          msg = data.message;
+        } else if (error.response.status === 401) {
+          msg = "Invalid email or password.";
+        } else if (error.response.status === 403) {
+          msg = "Account is inactive or disabled.";
+        }
+      } else if (error.request) {
+        msg = "Network error. Please check your connection.";
+      }
+      setError(msg);
+    } finally {
       setBusy(false);
-      if (!res.ok) return setError(res.error || "Login failed");
-      push(`Karibu back! Signed in as ${res.role}.`);
-      navigate(res.role === "admin" ? "/admin" : "/member");
-    }, 450);
+    }
   };
 
+  // Demo credentials (must match the seeded users)
   const fillDemo = (role: "admin" | "member") => {
     const em =
       role === "admin" ? "admin@barakachama.co.ke" : "member@barakachama.co.ke";
@@ -122,8 +157,10 @@ export default function Login() {
           </div>
 
           <form onSubmit={submit} className="space-y-5">
-            <Field label="Email">
+            <div>
+              <label htmlFor="email">Email</label>
               <input
+                id="email"
                 className={inputCls}
                 type="email"
                 placeholder="you@organisation.co.ke"
@@ -131,10 +168,12 @@ export default function Login() {
                 onChange={(e) => setEmail(e.target.value)}
                 autoComplete="email"
               />
-            </Field>
-            <Field label="Password">
+            </div>
+            <div>
+              <label htmlFor="password">Password</label>
               <div className="relative">
                 <input
+                  id="password"
                   className={inputCls + " pr-11"}
                   type={show ? "text" : "password"}
                   placeholder="••••••••"
@@ -154,7 +193,7 @@ export default function Login() {
                   )}
                 </button>
               </div>
-            </Field>
+            </div>
             {error && (
               <p className="rounded-lg border border-danger/25 bg-danger/8 px-3.5 py-2.5 text-sm text-danger">
                 {error}
