@@ -1,9 +1,18 @@
-import { useEffect, useState, type SetStateAction } from "react";
-import axios, { AxiosError } from "axios";
-import AddLoanProductForm from "../../components/admin/AddLoanProductForm";
-import { Plus, Trash2, RefreshCw } from "lucide-react";
+// pages/admin/Product.tsx
+import { useEffect, useState, type ComponentType } from "react";
+import { Plus, Trash2, RefreshCw, X } from "lucide-react";
+import { api } from "../../utils/api";
+import useAuth from "../../hooks/useAuth";
+import AddLoanProductFormRaw from "../../components/admin/AddLoanProductForm";
+
+const AddLoanProductForm = AddLoanProductFormRaw as ComponentType<{
+  onCreated: () => void;
+}>;
 
 const Product = () => {
+  const { user } = useAuth();
+  const tenantId = user?.tenantId;
+
   const [showAddForm, setShowAddForm] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [products, setProducts] = useState<any[]>([]);
@@ -11,25 +20,24 @@ const Product = () => {
   const [tableError, setTableError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | number | null>(null);
 
-  const apiBase = "/api/loan-products"; // change if your endpoint differs
-
-  const toggleLoanProductForm = () => {
-    setShowAddForm((s) => !s);
-  };
+  const apiBase = "/api/v1/loan-products";
 
   const fetchProducts = async () => {
+    if (!tenantId) {
+      setTableError("Please log in to view products.");
+      return;
+    }
+
     setLoading(true);
     setTableError(null);
     try {
-      const res = await axios.get(apiBase);
-      // Expecting an array in res.data
+      const res = await api.get(apiBase); // will automatically include tenant_id via auth middleware
       setProducts(Array.isArray(res.data) ? res.data : []);
-    } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const error = err as AxiosError<any>;
+    } catch (err: any) {
       setTableError(
-        error?.response?.data?.message ||
-          error?.message ||
+        err?.response?.data?.message ||
+          err?.message ||
           "Failed to load products.",
       );
     } finally {
@@ -38,18 +46,24 @@ const Product = () => {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchProducts();
-  }, []);
+    const timer = setTimeout(() => {
+      void fetchProducts();
+    }, 0);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tenantId]);
+
+  const toggleLoanProductForm = () => {
+    setShowAddForm((s) => !s);
+  };
+
   const handleCreated = () => {
-    // Called by AddLoanProductForm after successful creation
     setShowAddForm(false);
     fetchProducts();
   };
 
-  const handleDelete = async (id: SetStateAction<string | number | null>) => {
+  const handleDelete = async (id: string | number) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this product?",
     );
@@ -57,16 +71,24 @@ const Product = () => {
 
     setDeletingId(id);
     try {
-      await axios.delete(`${apiBase}/${id}`);
+      await api.delete(`${apiBase}/${id}`);
       setProducts((prev) => prev.filter((p) => p.id !== id));
-    } catch (err) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const error = err as AxiosError<any>;
-      alert(error?.response?.data?.message || error?.message || "Delete failed.");
+    } catch (err: any) {
+      alert(err?.response?.data?.message || err?.message || "Delete failed.");
     } finally {
       setDeletingId(null);
     }
   };
+
+  // If user is not logged in, show a message
+  if (!user) {
+    return (
+      <div className="p-6 text-center text-red-600">
+        Please log in to manage loan products.
+      </div>
+    );
+  }
 
   return (
     <section className="p-6">
@@ -94,9 +116,24 @@ const Product = () => {
         </div>
       </div>
 
+      {/* Modal Overlay */}
       {showAddForm && (
-        <div className="mb-6">
-          <AddLoanProductForm apiUrl={apiBase} />
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4 backdrop-blur-sm"
+          onClick={toggleLoanProductForm}>
+          <div
+            className="relative w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}>
+            {/* Close button */}
+            <button
+              onClick={toggleLoanProductForm}
+              className="absolute right-4 top-4 rounded-lg p-1.5 text-ink/45 transition hover:bg-ink/5 hover:text-ink"
+              type="button">
+              <X className="h-5 w-5" />
+            </button>
+
+            <AddLoanProductForm onCreated={handleCreated} />
+          </div>
         </div>
       )}
 
@@ -146,13 +183,11 @@ const Product = () => {
                   <td className="px-4 py-3">{p.max_term_days}</td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2">
-                      {/* Placeholder for future edit action */}
                       <button
                         onClick={() => alert("Edit not implemented yet")}
                         className="px-2 py-1 text-xs rounded border border-gray-200 hover:bg-gray-100">
                         Edit
                       </button>
-
                       <button
                         onClick={() => handleDelete(p.id)}
                         disabled={deletingId === p.id}

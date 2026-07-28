@@ -8,8 +8,7 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import useAuth from "./hooks/useAuth";
-import { ToastProvider } from "./components/ui/Toaster"
-
+import { ToastProvider } from "./components/ui/Toaster";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import Landing from "./pages/Landing";
 import Login from "./pages/auth/Login";
@@ -27,7 +26,6 @@ import Payments from "./pages/admin/Payments";
 import LoanCalculator from "./pages/admin/LoanCalculator";
 import Settings from "./pages/admin/Settings";
 import Loans from "./pages/admin/Loans";
-import { Toaster } from "react-hot-toast";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -43,9 +41,10 @@ function ScrollToTop() {
 function RedirectIfAuthed({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth();
 
-  if (loading) return null; // Avoid redirecting before auth state resolves
+  if (loading) return null;
 
   if (user) {
+    // Redirect admin to /admin, any other role (borrower, loan_officer, etc.) to /member
     return (
       <Navigate to={user.role === "admin" ? "/admin" : "/member"} replace />
     );
@@ -59,7 +58,6 @@ export default function App() {
     <HashRouter>
       <AuthProvider>
         <ToastProvider>
-          <Toaster/>
           <ScrollToTop />
           <Routes>
             {/* Public Layout */}
@@ -87,11 +85,11 @@ export default function App() {
               />
             </Route>
 
-            {/* Admin Portal (Protected) */}
+            {/* Admin Portal – accessible to admin and loan_officer */}
             <Route
               path="admin"
               element={
-                <ProtectedRoute role="admin">
+                <ProtectedRoute allowedRoles={["admin", "loan_officer"]}>
                   <AdminLayout />
                 </ProtectedRoute>
               }>
@@ -104,11 +102,11 @@ export default function App() {
               <Route path="settings" element={<Settings />} />
             </Route>
 
-            {/* Member Portal (Protected) */}
+            {/* Member Portal – only for borrowers */}
             <Route
               path="member"
               element={
-                <ProtectedRoute role="member">
+                <ProtectedRoute allowedRoles={["borrower"]}>
                   <MemberDashboard />
                 </ProtectedRoute>
               }

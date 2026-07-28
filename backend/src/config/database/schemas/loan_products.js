@@ -34,9 +34,7 @@ export const loan_products = pgTable(
     base_percentage: numeric("base_percentage", { precision: 6, scale: 4 })
       .notNull()
       .default("1.0000"), // changed default to pass check
-    fine_rules: jsonb("fine_rules")
-      .default(sql`"{}"::jsonb`)
-      .notNull(),
+    fine_rules: jsonb("fine_rules").default("{}").notNull(),
     min_loan_amount: numeric("min_loan_amount", { precision: 15, scale: 2 })
       .notNull()
       .default("0.00"),

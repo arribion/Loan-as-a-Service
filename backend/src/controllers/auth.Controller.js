@@ -1,4 +1,3 @@
-// controllers/auth.controller.js
 import { db } from "../config/database/db.js";
 import { users } from "../config/database/schemas/users.js";
 import { tenants } from "../config/database/schemas/tenants.js";
@@ -19,34 +18,57 @@ const cookieOptions = {
   sameSite: "strict",
 };
 
+// Validate email format
+const isValidEmail = (email) => /^\S+@\S+\.\S+$/.test(email);
+// Validate Kenyan phone (optional)
+const isValidPhone = (phone) =>
+  /^\+?254\d{9}$|^0\d{9}$/.test(phone.replace(/\s/g, ""));
 
-// Tenant Registration (creates tenant + admin user)
+
+// 1. Tenant Registration (with transaction)
 export const registerTenant = async (req, res) => {
   const { businessName, fullName, email, phone, password, plan } = req.body;
 
-  // Validate
+  // Validate required fields
   if (!businessName || !fullName || !email || !password) {
     return res.status(400).json({ message: "Missing required fields" });
+  }
+  if (!isValidEmail(email)) {
+    return res.status(400).json({ message: "Invalid email address" });
+  }
+  // Phone is optional, but if provided, validate it
+  if (phone && !isValidPhone(phone)) {
+    return res.status(400).json({ message: "Invalid phone number format" });
   }
   if (!["lite", "growth", "enterprise"].includes(plan)) {
     return res.status(400).json({ message: "Invalid plan" });
   }
 
   try {
-    // Single transaction
+    // Check if email already registered
+    const [existingUser] = await db
+      .select()
+      .from(users)
+      .where(eq(users.email_address, email))
+      .limit(1);
+    if (existingUser) {
+      return res.status(409).json({ message: "Email already registered" });
+    }
+
+    // Use transaction for atomic creation
     const result = await db.transaction(async (trx) => {
-      // 1. Create tenant (use package_tier column)
+      // 1. Create tenant
       const [newTenant] = await trx
         .insert(tenants)
         .values({
           business_name: businessName,
-          package_tier: plan, // fixed: use package_tier
+          package_tier: plan,
           configuration_payload: {},
           is_active: true,
         })
         .returning();
 
-      // 2. Create admin user (with optional phone)
+      // 2. Create admin user
       const hashedPassword = await bcrypt.hash(password, 10);
       const [newAdmin] = await trx
         .insert(users)
@@ -89,6 +111,7 @@ export const registerTenant = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 
 //  User Login
@@ -149,7 +172,6 @@ export const loginUser = async (req, res) => {
         role: user.security_role,
         tenantId: user.tenant_id,
       },
-      // optionally return tenant info
       tenant: {
         id: tenant.id,
         businessName: tenant.business_name,
@@ -163,10 +185,10 @@ export const loginUser = async (req, res) => {
 };
 
 
-//  Get Current User (for session restoration)
+
+//  Get Current User (session restoration)
 export const getMe = async (req, res) => {
   try {
-    // req.user should be set by authentication middleware (verify token)
     const userId = req.user?.userId;
     if (!userId) {
       return res.status(401).json({ message: "Unauthorized" });
@@ -214,7 +236,8 @@ export const getMe = async (req, res) => {
 };
 
 
-// Refresh Token
+
+//  Refresh Token
 export const refreshToken = async (req, res) => {
   const token = req.cookies.refresh_token;
   if (!token) {
@@ -249,8 +272,7 @@ export const refreshToken = async (req, res) => {
 };
 
 
-
-// Logout
+//  Logout
 export const logoutUser = (req, res) => {
   res.clearCookie("access_token", cookieOptions);
   res.clearCookie("refresh_token", cookieOptions);
@@ -264,4 +286,4 @@ export default {
   getMe,
   refreshToken,
   logoutUser,
-}
+};

@@ -1,37 +1,62 @@
 import { useState } from "react";
-import axios from "axios";
+import { api } from "../../utils/api"; // adjust path to your utils/api.ts
+import useAuth from "../../hooks/useAuth";
 
-const AddLoanProductForm = ({
-  tenantId = "6a6af487-eea6-478a-b6a3-616479578d87",
-  apiUrl = "/api/loan-products",
-}) => {
-  const [form, setForm] = useState({
+interface LoanProductFormData {
+  reference_title: string;
+  interest_calculation_type: "flat" | "reducing_balance" | "compound";
+  base_percentage: string;
+  fine_rules: string; // JSON string
+  min_loan_amount: string;
+  max_loan_amount: string;
+  max_term_days: number;
+}
+
+const AddLoanProductForm = () => {
+  const { user } = useAuth();
+  const tenantId = user?.tenantId;
+
+  const [form, setForm] = useState<LoanProductFormData>({
     reference_title: "",
     interest_calculation_type: "flat",
-    base_percentage: "0.0000",
-    fine_rules: "{}", // JSON string
+    base_percentage: "1.0000",
+    fine_rules: "{}",
     min_loan_amount: "0.00",
     max_loan_amount: "0.00",
-    max_term_days: 0,
+    max_term_days: 30,
   });
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >,
+  ) => {
     const { name, value } = e.target;
-    setForm((s) => ({ ...s, [name]: value }));
+    const isNumberInput =
+      e.target instanceof HTMLInputElement && e.target.type === "number";
+    setForm((s) => ({
+      ...s,
+      [name]: isNumberInput ? Number(value) : value,
+    }));
   };
 
-  const validate = () => {
-    setError(null);
+  const validate = (): string | null => {
     if (!form.reference_title.trim()) return "Reference title is required.";
-    if (!["flat", "reducing"].includes(form.interest_calculation_type))
+    if (
+      !["flat", "reducing_balance", "compound"].includes(
+        form.interest_calculation_type,
+      )
+    )
       return "Invalid interest calculation type.";
-    if (isNaN(Number(form.base_percentage)))
-      return "Base percentage must be a number.";
+    if (
+      isNaN(Number(form.base_percentage)) ||
+      Number(form.base_percentage) <= 0
+    )
+      return "Base percentage must be a positive number.";
     if (
       isNaN(Number(form.min_loan_amount)) ||
       isNaN(Number(form.max_loan_amount))
@@ -41,10 +66,7 @@ const AddLoanProductForm = ({
       return "Loan amounts must be non-negative.";
     if (Number(form.max_loan_amount) < Number(form.min_loan_amount))
       return "Max loan amount must be >= min loan amount.";
-    if (
-      !Number.isInteger(Number(form.max_term_days)) ||
-      Number(form.max_term_days) <= 0
-    )
+    if (!Number.isInteger(form.max_term_days) || form.max_term_days <= 0)
       return "Max term days must be a positive integer.";
     try {
       JSON.parse(form.fine_rules || "{}");
@@ -54,8 +76,14 @@ const AddLoanProductForm = ({
     return null;
   };
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!tenantId) {
+      setError("You must be logged in to create a loan product.");
+      return;
+    }
+
     const validationError = validate();
     if (validationError) {
       setError(validationError);
@@ -78,32 +106,40 @@ const AddLoanProductForm = ({
     setError(null);
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const res = await axios.post(apiUrl, payload, {
-        headers: { "Content-Type": "application/json" },
-      });
+      // Use the centralized api instance (with baseURL and withCredentials)
+      await api.post("/api/v1/loan-products", payload);
       setMessage("Loan product created successfully.");
+      // Reset form
       setForm({
         reference_title: "",
         interest_calculation_type: "flat",
-        base_percentage: "0.0000",
+        base_percentage: "1.0000",
         fine_rules: "{}",
         min_loan_amount: "0.00",
         max_loan_amount: "0.00",
-        max_term_days: 0,
+        max_term_days: 30,
       });
-    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
       const msg =
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (err as any)?.response?.data?.message || (err as any)?.message || "Request failed.";
+        err?.response?.data?.message || err?.message || "Request failed.";
       setError(msg);
     } finally {
       setLoading(false);
     }
   };
 
+  // If user is not authenticated, show a message
+  if (!user) {
+    return (
+      <div className="max-w-2xl mx-auto p-6 bg-white rounded-md shadow-sm">
+        <p className="text-red-600">Please log in to create a loan product.</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-md shadow-sm">
+    <div className="max-w-2xl mx-auto p-6 bg-white rounded-md shadow-sm overflow-y-scroll">
       <h2 className="text-xl font-semibold mb-4">Add Loan Product</h2>
 
       {message && (
@@ -139,15 +175,16 @@ const AddLoanProductForm = ({
             value={form.interest_calculation_type}
             onChange={handleChange}
             className="border-2 border-slate-300 rounded p-2 w-full my-2">
-            <option value="flat">flat</option>
-            <option value="reducing">reducing</option>
+            <option value="flat">Flat</option>
+            <option value="reducing_balance">Reducing Balance</option>
+            <option value="compound">Compound</option>
           </select>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Base Percentage
+              Base Percentage (%)
             </label>
             <input
               name="base_percentage"
@@ -155,9 +192,10 @@ const AddLoanProductForm = ({
               onChange={handleChange}
               className="border-2 border-slate-300 rounded p-2 w-full my-2"
               placeholder="12.5000"
+              step="0.0001"
             />
             <p className="text-xs text-gray-500 mt-1">
-              Format: numeric, up to 4 decimal places.
+              Numeric, up to 4 decimal places.
             </p>
           </div>
 
@@ -203,6 +241,24 @@ const AddLoanProductForm = ({
               placeholder="25000.00"
             />
           </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Fine Rules (JSON)
+          </label>
+          <textarea
+            name="fine_rules"
+            value={form.fine_rules}
+            onChange={handleChange}
+            className="border-2 border-slate-300 rounded p-2 w-full my-2"
+            rows={2}
+            placeholder='{"grace_days": 3, "daily_penalty_rate": 0.02}'
+          />
+          <p className="text-xs text-gray-500 mt-1">
+            Must be valid JSON. Optional fields: grace_days, daily_penalty_rate,
+            max_penalty_cap.
+          </p>
         </div>
 
         <div className="flex items-center justify-between">

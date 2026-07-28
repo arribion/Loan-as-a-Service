@@ -19,6 +19,11 @@ const Topbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [tab, setTab] = useState<Tab>("overview");
+  const [profileModal, setProfileModel] = useState(false);
+
+  const toggleProfileModel = () => {
+    setProfileModel(!profileModal);
+  }
   
     const doLogout = () => {
     logout();
@@ -27,56 +32,69 @@ const Topbar = () => {
     return (
       <header className="sticky top-0 z-40 border-b border-ink/8 bg-cream/90 backdrop-blur">
         <div className="flex justify-between items-center gap-4 px-5 py-3.5 lg:px-8">
-            <div>
-              <div className="lg:hidden">
-                <Link to="/">
-                  <Logo compact />
-                </Link>
-              </div>
-              <div className="hidden lg:block">
-                <p className="text-xs text-ink/45">
-                  {user!.org} · Admin console
-                </p>
-                <h1 className="font-display text-lg font-bold capitalize text-ink">
-                  {tab}
-                </h1>
-              </div>
+          <div>
+            <div className="lg:hidden">
+              <Link to="/">
+                <Logo compact />
+              </Link>
+            </div>
+            <div className="hidden lg:block">
+              <p className="text-xs text-ink/45">{user!.org} · Admin console</p>
+              <h1 className="font-display text-lg font-bold capitalize text-ink">
+                {tab}
+              </h1>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 border-t border-cream/10 px-5 py-4">
+            <span className="grid h-9 w-9 place-items-center rounded-full bg-forest font-display text-sm font-bold text-gold">
+              {user!.name
+                .split(" ")
+                .map((w) => w[0])
+                .join("")
+                .slice(0, 2)}
+            </span>
+
+            <div onClick={toggleProfileModel} className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold relative">{user!.name}</p>
+              <p className="truncate text-[11px] text-slate-800/70">
+                {user!.org}
+              </p>
+
+              {profileModal && (
+                <div className='absolute bg-white rounded shadow'>
+                  <nav>
+                    <ul>
+                      <li>Account</li>
+                      <li>Settings</li>
+                        <li>MFA</li>
+                      <li
+                        title="Log out"
+                        className="text-red-600 transition hover:text-red-500 flex gap-2 items-center"
+                        aria-label="Log out"
+                        onClick={doLogout}
+                      >
+                        <LogOut className="h-4.5 w-4.5" />
+                        logout
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              )}
             </div>
 
-              <div className="flex items-center gap-3 border-t border-cream/10 px-5 py-4">
-                <span className="grid h-9 w-9 place-items-center rounded-full bg-forest font-display text-sm font-bold text-gold">
-                  {user!.name
-                    .split(" ")
-                    .map((w) => w[0])
-                    .join("")
-                    .slice(0, 2)}
-                </span>
+           
 
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold">{user!.name}</p>
-                  <p className="truncate text-[11px] text-slate-800/70">
-                    {user!.org}
-                  </p>
-                </div>
+          </div>
+        </div>
 
-                <button
-                  onClick={doLogout}
-                  title="Log out"
-                  className="text-green-600 transition hover:text-gold flex gap-2 items-center"
-                  aria-label="Log out">
-              <LogOut className="h-4.5 w-4.5" />
-              logout
-                </button>
-              </div>
-           </div>
-        
-          <button
-            onClick={doLogout}
-            className="ml-auto rounded-lg border border-ink/10 p-2 text-ink/55 transition hover:border-danger/30 hover:text-danger md:ml-0 lg:hidden"
-            title="Log out">
+        <button
+          onClick={doLogout}
+          className="ml-auto rounded-lg border border-ink/10 p-2 text-ink/55 transition hover:border-danger/30 hover:text-danger md:ml-0 lg:hidden"
+          title="Log out">
           <LogOut className="h-4.5 w-4.5" />
           Logout
-          </button>
+        </button>
 
         {/* mobile nav */}
         <div className="flex gap-1 overflow-x-auto px-4 pb-3 lg:hidden">

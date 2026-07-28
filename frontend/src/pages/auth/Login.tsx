@@ -9,21 +9,15 @@ import {
   Smartphone,
   Users,
 } from "lucide-react";
-import axios, { AxiosError } from "axios";
 import { useToast } from "../../components/ui/Toaster";
 import Logo from "../../components/ui/Logo";
-
-export const inputCls =
-  "w-full rounded-lg border border-ink/15 bg-cream px-3.5 py-2.5 text-sm text-ink outline-none transition placeholder:text-ink/35 focus:border-forest focus:ring-2 focus:ring-forest/20";
-
-const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-if (BASE_URL) {
-    console.log("error accessing base url on login page")
-  }
+import useAuth from "../../hooks/useAuth";
+import { inputCls } from "../../utils/inputCls";
 
 export default function Login() {
   const navigate = useNavigate();
   const { push } = useToast();
+  const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -36,43 +30,24 @@ export default function Login() {
     if (!em || !pw) return setError("Enter your email and password.");
     setBusy(true);
 
-    try {
-      const response = await axios.post(
-        `${BASE_URL}/api/v1/auth/login`,
-        { email: em, password: pw },
-        { withCredentials: true },
-      );
+    const result = await login(em, pw);
+    setBusy(false);
 
-      const { user } = response.data;
-      push(`Karibu back! Signed in as ${user.fullName}.`);
-      // Navigate based on role
-      if (user.role === "admin" || user.role === "loan_officer") {
-        navigate("/admin");
-      } else {
-        navigate("/member");
-      }
-    } catch (err) {
-      const error = err as AxiosError<{ message?: string }>;
-      let msg = "Login failed. Please try again.";
-      if (error.response) {
-        const data = error.response.data;
-        if (data?.message) {
-          msg = data.message;
-        } else if (error.response.status === 401) {
-          msg = "Invalid email or password.";
-        } else if (error.response.status === 403) {
-          msg = "Account is inactive or disabled.";
-        }
-      } else if (error.request) {
-        msg = "Network error. Please check your connection.";
-      }
-      setError(msg);
-    } finally {
-      setBusy(false);
+    if (!result.ok) {
+      setError(result.error || "Login failed");
+      return;
+    }
+
+    const user = result.user!;
+    push(`Karibu back! Signed in as ${user.name}.`);
+    // Navigate based on role
+    if (user.role === "admin" || user.role === "loan_officer") {
+      navigate("/admin");
+    } else {
+      navigate("/member");
     }
   };
 
-  // Demo credentials (must match the seeded users)
   const fillDemo = (role: "admin" | "member") => {
     const em =
       role === "admin" ? "admin@barakachama.co.ke" : "member@barakachama.co.ke";

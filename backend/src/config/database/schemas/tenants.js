@@ -23,7 +23,7 @@ export const tenants = pgTable(
     business_name: varchar("business_name", { length: 200 }).notNull(),
     package_tier: packageTierEnum("package_tier").notNull().default("lite"),
     configuration_payload: jsonb("configuration_payload")
-      .default(sql`"{}"::jsonb`)
+      .default("{}")
       .notNull(),
     is_active: boolean("is_active").default(true).notNull(),
     created_at: timestamp("created_at", { withTimezone: true })

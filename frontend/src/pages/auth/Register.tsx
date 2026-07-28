@@ -1,14 +1,13 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { ArrowLeft, Building2, Check, Eye, EyeOff, Users } from "lucide-react";
-import axios, { AxiosError } from "axios";
 import { useToast } from "../../components/ui/Toaster";
 import Logo from "../../components/ui/Logo";
 import { PLANS, kes, type PlanId } from "../../data/mock";
 import { cn } from "../../utils/cn";
+import useAuth from "../../hooks/useAuth";
+import { inputCls } from "../../utils/inputCls";
 
-export const inputCls =
-  "w-full rounded-lg border border-ink/15 bg-cream px-3.5 py-2.5 text-sm text-ink outline-none transition placeholder:text-ink/35 focus:border-forest focus:ring-2 focus:ring-forest/20";
 
 const COUNTIES = [
   "Nairobi",
@@ -26,6 +25,7 @@ const COUNTIES = [
 export default function Register() {
   const navigate = useNavigate();
   const { push } = useToast();
+  const { register } = useAuth(); // <-- use context register
   const [params] = useSearchParams();
   const initialPlan = (
     ["lite", "growth", "enterprise"].includes(params.get("plan") || "")
@@ -44,17 +44,11 @@ export default function Register() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
-
-  const BASE_URL = import.meta.env.VITE_API_BASE_URL;
-  if (!BASE_URL) {
-    console.log("error accessing base url on registration page")
-  }
-
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    // --- validation ---
+    // Validation (same as before)
     if (!org.trim() || !name.trim()) {
       return setError("Organisation and contact name are required.");
     }
@@ -70,47 +64,24 @@ export default function Register() {
 
     setBusy(true);
 
-    try {
-      // --- API call with Axios ---
-      const payload = {
-        businessName: org.trim(),
-        fullName: name.trim(),
-        email,
-        phone, // backend ignores it for now, but we keep it
-        password,
-        plan,
-      };
+    const result = await register({
+      businessName: org.trim(),
+      fullName: name.trim(),
+      email,
+      phone,
+      password,
+      plan,
+    });
 
-      await axios.post(
-        `${BASE_URL}/api/v1/user/auth/register`,
-        payload,
-        { withCredentials: true }, // important: send/receive cookies
-      );
+    setBusy(false);
 
-      // success
-      push(`Tenant "${org.trim()}" created on the ${plan} plan. Karibu!`);
-      navigate("/admin");
-    } catch (err) {
-      const error = err as AxiosError<{ message?: string }>;
-      let msg = "Registration failed. Please try again.";
-      if (error.response) {
-        // server responded with a status other than 2xx
-        const data = error.response.data;
-        if (data?.message) {
-          msg = data.message;
-        } else if (error.response.status === 409) {
-          msg = "This email is already registered. Please log in.";
-        } else if (error.response.status === 400) {
-          msg = "Invalid input. Check your details.";
-        }
-      } else if (error.request) {
-        // no response (network error)
-        msg = "Network error. Please check your connection.";
-      }
-      setError(msg);
-    } finally {
-      setBusy(false);
+    if (!result.ok) {
+      setError(result.error || "Registration failed");
+      return;
     }
+
+    push(`Tenant "${org.trim()}" created on the ${plan} plan. Karibu!`);
+    navigate("/admin");
   };
 
   return (

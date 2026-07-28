@@ -6,7 +6,7 @@ import { fileURLToPath } from "url";
 import tenantResolver from "./src/middlewares/tenant.Resolver.js";
 import rootErrorHandler from "./src/middlewares/rootErrorHandler.js";
 import ping_onrender from "./src/util/ping.js";
-
+import cookieParser from "cookie-parser";
 // import payloadSafeguard from "./src/middlewares/payload.safeguard.js";
 
 const app = express();
@@ -22,11 +22,10 @@ export const __dirname = path.dirname(__filename);
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.text({ type: "application/json" }));
-
+app.use(cookieParser());
 // app.use(tenantResolver)
 
 
-// allowed origins
 app.use(
   cors({
     origin: [
@@ -34,9 +33,9 @@ app.use(
       "http://localhost:5173",
       "http://localhost:5174",
     ],
+    credentials: true, 
   }),
 );
-
 
 // view engine
 app.set("view engine", "ejs");
@@ -71,7 +70,7 @@ import loanRouter from "./src/routes/loan.Route.js";
 
 
 // route middlewares
-app.use("/api/v1/user/auth", auth_router);
+app.use("/api/v1/auth", auth_router);
 app.use("/api/v1/package-tiers", packageTier_Router);
 app.use("/api/v1/users", memberRoute);
 app.use("/api/v1/products", product_Router);

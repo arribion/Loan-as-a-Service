@@ -120,7 +120,7 @@ const Members = () => {
     return [...added, ...SEED_MEMBERS];
   }, [added]);
 
-  const totalMembers = (user?.memberBase ?? 0) + added.length;
+  const totalMembers = SEED_MEMBERS.length + added.length;
   const atCap = memberCap !== Infinity && totalMembers >= memberCap;
 
   const usagePct = useMemo(() => {
@@ -305,7 +305,7 @@ const Members = () => {
             </table>
           </div>
 
-          {user!.memberBase > 0 && filteredMembers.length > 0 && (
+          {memberCap > 0 && filteredMembers.length > 0 && (
             <p className="border-t border-ink/8 px-6 py-3 text-xs text-ink/40">
               Showing {filteredMembers.length} of {totalMembers} members · older
               records archived in ledger export.
