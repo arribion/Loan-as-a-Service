@@ -7,16 +7,11 @@ import {
   ChevronDown,
   Clock,
   Cog,
-  Crown,
   HandCoins,
   LayoutDashboard,
   ReceiptText,
-  Users,
 } from "lucide-react";
 import { cn } from "../../utils/cn";
-import { PlanBadge } from "../ui/Pills&Badges";
-import useAuth from "../../hooks/useAuth";
-import type { Member } from "../../data/mock";
 
 type ChildNavItem = {
   id: string;
@@ -33,25 +28,15 @@ type NavItem = {
 };
 
 const NAV: NavItem[] = [
-  { id: "overview", label: "Overview", icon: LayoutDashboard, to: "/admin" },
+  { id: "overview", label: "Overview", icon: LayoutDashboard, to: "/member" },
   {
-    id: "members",
-    label: "Members",
-    icon: Users,
-    to: "/admin/members",
-    children: [
-      { id: "all-products", label: "All Products", to: "/admin/products/all" },
-      { id: "add-products", label: "Add Product", to: "/admin/products/add" },
-    ],
-  },
-  {
-    id: "products",
-    label: "Products",
+    id: "Loans",
+    label: "Loans",
     icon: ReceiptText,
     to: "/admin/products",
     children: [
-      { id: "all-members", label: "All Members", to: "/admin/products/" },
-      { id: "add-products", label: "Add Member", to: "/admin/products/add" },
+      { id: "apply-loan", label: "Apply Loan", to: "/member/apply-loan/" },
+      { id: "my-loan", label: "My Loans", to: "/member/my-loan" },
     ],
   },
   {
@@ -63,38 +48,20 @@ const NAV: NavItem[] = [
   { id: "loans", label: "Loans", icon: HandCoins, to: "/admin/loans" },
   { id: "schedule", label: "Schedule", icon: Clock, to: "/admin/schedule" },
   {
-    id: "payments",
-    label: "Payments",
+    id: "repayments",
+    label: "Repayments",
     icon: BanknoteArrowDown,
-    to: "/admin/payments",
+    to: "/member/payments",
     children: [
       {
-        id: "members-payments",
-        label: "Members Payments",
+        id: "repay-loan",
+        label: "Loan Payments",
         to: "/admin/payments/members",
       },
       {
         id: "payment-settings",
-        label: "Payment Settings",
+        label: "Payment History",
         to: "payments/settings",
-      },
-    ],
-  },
-  {
-    id: "sms",
-    label: "SMS",
-    icon: BanknoteArrowDown,
-    to: "/admin/sms-communication",
-    children: [
-      {
-        id: "members-payments",
-        label: "Members Payments",
-        to: "/admin/payments/members",
-      },
-      {
-        id: "sms-settings",
-        label: "SMS Settings",
-        to: "sms/settings",
       },
     ],
   },
@@ -103,10 +70,6 @@ const NAV: NavItem[] = [
 
 const Sidebar: React.FC = () => {
   const location = useLocation();
-  const { user, memberCap } = useAuth();
-  const [added] = useState<Member[]>([]);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_showUpgrade, setShowUpgrade] = useState(false);
 
   // Set initial expanded state based on current route
   const [expanded, setExpanded] = useState<Set<string>>(() => {
@@ -137,12 +100,6 @@ const Sidebar: React.FC = () => {
     return false;
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const totalMembers = ((user as any)?.memberBase ?? 0) + added.length;
-  const usagePct =
-    memberCap === Infinity
-      ? 4
-      : Math.min(100, Math.round((totalMembers / memberCap) * 100));
 
   return (
     <aside className="sticky top-0 overflow-y-auto hidden h-screen flex-col border-r border-cream/10 bg-pine text-cream lg:flex">
@@ -234,43 +191,6 @@ const Sidebar: React.FC = () => {
           );
         })}
       </nav>
-
-      {/* plan usage */}
-      <div className="mx-3 mb-3 rounded-xl border border-cream/10 bg-cream/5 p-4">
-        <div className="flex items-center justify-between">
-          <PlanBadge plan={user!.plan} />
-          <span className="text-xs text-cream/50">
-            {totalMembers}/{memberCap === Infinity ? "∞" : memberCap}
-          </span>
-        </div>
-
-        <div className="mt-3 h-2 overflow-hidden rounded-full bg-cream/10">
-          <div
-            className={cn(
-              "h-full rounded-full transition-all duration-700",
-              usagePct > 90
-                ? "bg-danger"
-                : usagePct > 70
-                  ? "bg-gold"
-                  : "bg-fern",
-            )}
-            style={{ width: `${usagePct}%` }}
-          />
-        </div>
-
-        <p className="mt-2 text-[11px] text-cream/45">
-          Members on subscription
-        </p>
-
-        {user!.plan !== "enterprise" && (
-          <button
-            onClick={() => setShowUpgrade(true)}
-            className="mt-3 flex w-full items-center justify-center gap-1.5 rounded-lg bg-gold/15 py-2 text-xs font-bold text-gold transition hover:bg-gold hover:text-ink"
-            aria-label="Upgrade plan">
-            <Crown className="h-3.5 w-3.5" /> Upgrade plan
-          </button>
-        )}
-      </div>
     </aside>
   );
 };

@@ -26,6 +26,8 @@ import Payments from "./pages/admin/Payments";
 import LoanCalculator from "./pages/admin/LoanCalculator";
 import Settings from "./pages/admin/Settings";
 import Loans from "./pages/admin/Loans";
+import PaymentSettings from "./pages/admin/PaymentSettings";
+import ClientLayout from "./layouts/ClientLayout";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -98,19 +100,21 @@ export default function App() {
               <Route path="products" element={<Product />} />
               <Route path="loans" element={<Loans />} />
               <Route path="payments" element={<Payments />} />
+              <Route path="payments/settings" element={<PaymentSettings />} />
               <Route path="loan-calculator" element={<LoanCalculator />} />
               <Route path="settings" element={<Settings />} />
             </Route>
 
             {/* Member Portal – only for borrowers */}
             <Route
-              path="member"
               element={
                 <ProtectedRoute allowedRoles={["borrower"]}>
-                  <MemberDashboard />
+                  <ClientLayout />
                 </ProtectedRoute>
               }
-            />
+            >
+              <Route path="member" element={<MemberDashboard />} />
+            </Route>
 
             {/* Global 404 Fallback */}
             <Route path="*" element={<NotFound />} />

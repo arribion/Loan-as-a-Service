@@ -54,7 +54,7 @@ const Navbar = () => {
           {isAuthenticated ? (
             /* Logged In State: Initials Avatar */
             <Link
-              to="/dashboard"
+              to="/admin"
               className="flex h-10 w-10 items-center gap-2 justify-center rounded-full bg-forest font-bold text-cream transition hover:scale-105">
               {getInitials()}
             </Link>
