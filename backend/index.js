@@ -33,7 +33,7 @@ app.use(
       "http://localhost:5173",
       "http://localhost:5174",
     ],
-    credentials: true, 
+    credentials: true,
   }),
 );
 
@@ -44,12 +44,12 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 const PORT = process.env.PORT || 5000;
-if(!PORT) {
+if (!PORT) {
   throw new Error("PORT environment variable is not defined");
 }
 
 
-const host = "0.0.0.0"; 
+const host = "0.0.0.0";
 const serverUrl = `http://${host}:${PORT}`;
 
 
@@ -60,6 +60,8 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/alert", alertApp)
+
 
 // routes
 import auth_router from "./src/routes/auth.Route.js";
@@ -67,6 +69,7 @@ import memberRoute from "./src/routes/member.Route.js";
 import product_Router from "./src/routes/product.Route.js";
 import packageTier_Router from "./src/routes/package.Route.js";
 import loanRouter from "./src/routes/loan.Route.js";
+import alertApp from "./src/controllers/alertApp.controller.js";
 
 
 // route middlewares
