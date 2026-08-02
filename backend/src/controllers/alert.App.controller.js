@@ -1,4 +1,4 @@
-import { db } from "../config/database/db";
+import { db } from "../config/database/db.js";
 import { sql } from "drizzle-orm";
 
 export default async function alertApp(req, res) {

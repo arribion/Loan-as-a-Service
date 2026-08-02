@@ -69,7 +69,7 @@ import memberRoute from "./src/routes/member.Route.js";
 import product_Router from "./src/routes/product.Route.js";
 import packageTier_Router from "./src/routes/package.Route.js";
 import loanRouter from "./src/routes/loan.Route.js";
-import alertApp from "./src/controllers/alertApp.controller.js";
+import alertApp from "./src/controllers/alert.App.controller.js";
 
 
 // route middlewares

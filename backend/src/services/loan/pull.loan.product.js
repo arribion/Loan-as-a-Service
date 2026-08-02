@@ -8,7 +8,7 @@ export const getLoanProduct = async (productID) => {
     const loanProducts = await db
       .select()
       .from(loan_products)
-      .where(eq(loan_products.productID, productID)); // Removed .returning() as it is only for INSERT/UPDATE/DELETE
+      .where(eq(loan_products.id, productID)); // Removed .returning() as it is only for INSERT/UPDATE/DELETE
 
     return loanProducts[0] || null; // Return the specific product or null if not found
   } catch (error) {
