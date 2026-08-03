@@ -1,5 +1,5 @@
 // seed.js
-import { db } from "./src/config/database/db.js";
+import db from "./src/config/database/db.js";
 import { tenants } from "./src/config/database/schemas/tenants.js";
 import { users } from "./src/config/database/schemas/users.js";
 import { eq } from "drizzle-orm";

@@ -1,6 +1,5 @@
-import { db } from "../config/database/db.js";
-import { users } from "../config/database/schemas/users.js";
-import { tenants } from "../config/database/schemas/tenants.js";
+import db from "../config/database/db.js";
+import { users, tenants } from "../config/database/schemas/index.js";
 import { eq } from "drizzle-orm";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";

@@ -1,6 +1,6 @@
 import getLoanProduct from "./pull.loan.product.js";
-import { db } from "../../config/database/db.js";
-import { loans } from "../../config/database/schemas/loans.js";
+import db from "../../config/database/db.js";
+import { loans } from "../../config/database/schemas/index.js/loans.js";
 
 export const applyLoan = async (req, res) => {
   const { productID } = req.params;
@@ -58,15 +58,15 @@ export const applyLoan = async (req, res) => {
     const [newLoan] = await db
       .insert(loans)
       .values({
-        tenant_id: product.tenant_id, 
-        borrower_id: borrowerId, 
-        product_id: product.id, 
+        tenant_id: product.tenant_id,
+        borrower_id: borrowerId,
+        product_id: product.id,
         principal_amount: databaseAmountStr,
-        balance_outstanding: databaseAmountStr, 
+        balance_outstanding: databaseAmountStr,
         term_days: parseInt(termDays),
-        status: "pending_approval", 
+        status: "pending_approval",
       })
-      .returning(); 
+      .returning();
 
     // 7. Send successful payload response
     return res.status(201).json({

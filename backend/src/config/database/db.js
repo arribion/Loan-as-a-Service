@@ -16,7 +16,7 @@ const queryClient = postgres(DATABASE_URL, {
   connect_timeout: 30,
 });
 
-export const db = drizzle(queryClient);
+const db = drizzle(queryClient);
 
 // Database Connection test function
 async function checkConnection() {
@@ -28,5 +28,7 @@ async function checkConnection() {
     process.exit(1);
   }
 }
+
+export default db
 
 checkConnection();

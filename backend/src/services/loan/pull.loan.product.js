@@ -1,5 +1,5 @@
-import { db } from "../../config/database/db.js";
-import { loan_products } from "../../config/database/schemas/loan_products.js";
+import db from "../../config/database/db.js";
+import { loan_products } from "../../config/database/schemas/index.js/loan_products.js";
 import { eq } from "drizzle-orm"; // Added this import
 
 export const getLoanProduct = async (productID) => {

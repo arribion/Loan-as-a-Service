@@ -8,32 +8,30 @@ import {
   check,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
-import users from "./users.js";
+import { users } from "./users.js";
 
-export const customer_profiles = pgTable(
+export const customerProfiles = pgTable(
   "customer_profiles",
   {
     id: uuid("id").defaultRandom().primaryKey().notNull(),
-    user_id: uuid("user_id")
+    userId: uuid("user_id")
       .notNull()
       .unique()
       .references(() => users.id, { onDelete: "cascade" }),
-    national_identity_number: text("national_identity_number")
+    nationalIdentityNumber: text("national_identity_number")
       .notNull()
       .unique(), // no default
-    phone_number: text("phone_number").notNull(),
-    encryption_key_vector: text("encryption_key_vector").notNull(),
-    credit_score: smallint("credit_score").default(0),
-    date_of_birth: timestamp("date_of_birth", { mode: "string" }),
-    kyc_verified_at: timestamp("kyc_verified_at", {
+    phoneNumber: text("phone_number").notNull(),
+    encryptionKeyVector: text("encryption_key_vector").notNull(),
+    creditScore: smallint("credit_score").default(0),
+    dateOfBirth: timestamp("date_of_birth", { mode: "string" }),
+    kycVerifiedAt: timestamp("kyc_verified_at", {
       withTimezone: true,
       mode: "string",
     }),
   },
   (table) => [
     index("idx_cust_user").on(table.user_id),
-    check("credit_score_check", sql`${table.credit_score} BETWEEN 0 AND 1000`),
+    check("credit_score_check", sql`${table.creditScore} BETWEEN 0 AND 1000`),
   ],
 );
-
-export default customer_profiles;

@@ -1,6 +1,6 @@
-import express_validator from "express-validator";
+import expressValidator from "express-validator";
 
-const { body, validationResult } = express_validator;
+const { body, validationResult } = expressValidator;
 
 const registration_validator = [
     body("email").isEmail().withMessage("invalid email format"),

@@ -20,20 +20,18 @@ export const tenants = pgTable(
   "tenants",
   {
     id: uuid("id").defaultRandom().primaryKey().notNull(),
-    business_name: varchar("business_name", { length: 200 }).notNull(),
-    package_tier: packageTierEnum("package_tier").notNull().default("lite"),
-    configuration_payload: jsonb("configuration_payload")
+    businessName: varchar("business_name", { length: 200 }).notNull(),
+    packageTier: packageTierEnum("package_tier").notNull().default("lite"),
+    configurationPayload: jsonb("configuration_payload")
       .default("{}")
       .notNull(),
-    is_active: boolean("is_active").default(true).notNull(),
-    created_at: timestamp("created_at", { withTimezone: true })
+    isActive: boolean("is_active").default(true).notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
       .defaultNow()
       .notNull(),
   },
   (table) => [
-    index("idx_tenants_tier").on(table.package_tier),
-    index("idx_tenants_active").on(table.is_active),
+    index("idx_tenants_tier").on(table.packageTier),
+    index("idx_tenants_active").on(table.isActive),
   ],
 );
-
-export default tenants;

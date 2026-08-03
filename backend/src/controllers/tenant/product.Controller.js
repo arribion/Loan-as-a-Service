@@ -1,5 +1,5 @@
-import { db } from "../../config/database/db.js";
-import { loan_products } from "../../config/database/schemas/loan_products.js";
+import db from "../../config/database/db.js";
+import { loanProducts } from "../../config/database/schemas/index.js";
 import { and, eq } from "drizzle-orm";
 import sampleProduct from "../../../store/loan.Product.js";
 
@@ -42,14 +42,14 @@ export const create_product = async (req, res) => {
       max_term_days,
     };
     const createdProduct = await db
-      .insert(loan_products)
+      .insert(loanProducts)
       .values(newProduct)
       .returning();
 
     return res.status(201).json({
       success: true,
       message: "Product created successfully",
-      data: createdProduct[0], 
+      data: createdProduct[0],
     });
   } catch (error) {
     console.error("Create Product Error:", error);
@@ -66,8 +66,8 @@ export const get_product = async (req, res) => {
   try {
     const results = await db
       .select()
-      .from(loan_products)
-      .where(eq(loan_products.id, id));
+      .from(loanProducts)
+      .where(eq(loanProducts.id, id));
 
     const product = results[0];
 
@@ -112,8 +112,8 @@ export const get_all_products = async (req, res) => {
   try {
     const products = await db
       .select()
-      .from(loan_products)
-      .where(eq(loan_products.tenant_id, tenant_id));
+      .from(loanProducts)
+      .where(eq(loanProducts.tenant_id, tenant_id));
     return res.status(200).json({
       success: true,
       message: "Products retrieved successfully",
@@ -153,7 +153,7 @@ export const update_product = async (req, res) => {
       });
     }
     await db
-      .update(loan_products)
+      .update(loanProducts)
       .set({
         reference_title,
         base_percentage,
@@ -163,8 +163,8 @@ export const update_product = async (req, res) => {
         max_term_days,
       })
       .where(and(
-        eq(loan_products.id, id),
-        eq(loan_products.tenant_id, tenant_id),
+        eq(loanProducts.id, id),
+        eq(loanProducts.tenant_id, tenant_id),
       ));
 
     return res.status(200).json({
@@ -186,10 +186,10 @@ export const delete_product = async (req, res) => {
   const { id, tenant_id } = req.params;
   try {
     const deleted = await db
-      .delete(loan_products)
-       .where(and(
-        eq(loan_products.id, id),
-        eq(loan_products.tenant_id, tenant_id),
+      .delete(loanProducts)
+      .where(and(
+        eq(loanProducts.id, id),
+        eq(loanProducts.tenant_id, tenant_id),
       ))
       .returning();
 
